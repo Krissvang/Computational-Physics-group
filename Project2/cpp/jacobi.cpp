@@ -11,7 +11,7 @@ using namespace std::chrono;
 
 // performs jacobi algorithm
 // to find eigenvalues/vectors
-int jacobi(int n, double conv, mat& a, mat& v) {
+int jacobi(int n, double conv, mat& a, mat& v, double& time) {
     cout.precision(5);
     double aip=0, aiq=0, vip=0, viq=0;
     double tau=0, t=0, s=0, c=0;//tan(theta), sin(theta), cos(theta)
@@ -83,7 +83,8 @@ int jacobi(int n, double conv, mat& a, mat& v) {
 
     cout<<"Diagonalization took "<<count<<" iterations"<<endl;
     duration<double> elapsed = end-start;
-    cout<<scientific<<"CPU time (sec) : "<<elapsed.count()<<endl;
+    time = elapsed.count();
+    cout<<scientific<<"CPU time (sec) : "<<time<<endl;
 
     return 0;
 }
@@ -122,20 +123,20 @@ vec& r, mat& v,int interact,double wr){
     for (int i=1; i<n ;i++){
         r(i)=r(i-1)+h;
     }
-
+    double h2inv = 1/(h*h);
     //initialize matrix and vector
     for (int i=0;i<n;i++){
         for (int j=0;j<n;j++){
             if(i==j && interact==0){
-                a(i,j)=2/(h*h)+r(i)*r(i);
+                a(i,j)=2*h2inv+r(i)*r(i);
                 v(i,j)=1;
             }
             else if (i==j && interact==1){
-                a(i,j)=2/(h*h)+wr*wr*r(i)*r(i)+1/r(i);
+                a(i,j)=2*h2inv+wr*wr*r(i)*r(i)+1/r(i);
                 v(i,j)=1;
             }
             else if (i==j+1 or i==j-1){
-                a(i,j)=-1/(h*h);
+                a(i,j)=-1*h2inv;
             }
             else{
                 a(i,j)=0;
@@ -152,20 +153,20 @@ int interact,double wr){
     for (int i=1; i<n ;i++){
         r(i)=r(i-1)+h;
     }
-
+    double h2inv = 1/(h*h);
     //initialize matrix and vector
     for (int i=0;i<n;i++){
         for (int j=0;j<n;j++){
             if(i==j && interact==0){
-                a(i,j)=2;
+                a(i,j)=2*h2inv;
                 v(i,j)=1;
             }
             else if (i==j && interact==1){
-                a(i,j)=2;
+                a(i,j)=2*h2inv;
                 v(i,j)=1;
             }
             else if (i==j+1 or i==j-1){
-                a(i,j)=-1;
+                a(i,j)=-1*h2inv;
             }
             else{
                 a(i,j)=0;

@@ -14,7 +14,7 @@ using namespace arma;
 
 void print_vals(mat,mat,int,double);
 void initialize_beam(int,double,mat&,vec&,mat&,int,double);
-int jacobi(int,double,mat&,mat&);
+int jacobi(int,double,mat&,mat&,double&);
 void find_max(mat,int&,int&,double&,int);
 vector<double> get_eigenvals(mat,int);
 mat get_eigenvecs(mat,mat,int);
