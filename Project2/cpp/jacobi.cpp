@@ -2,9 +2,10 @@
 #include<fstream>
 #include<math.h>
 #include<iomanip>
-#include<time.h>
+#include<chrono>
 #include<algorithm>
 #include<vector>
+using namespace std::chrono;
 
 #include "jacobi.h"
 
@@ -12,13 +13,13 @@
 // to find eigenvalues/vectors
 int jacobi(int n, double conv, mat& a, mat& v) {
     cout.precision(5);
-    double aip=0, aiq=0, vpi=0, vqi=0;
-    double tau=0, t=0, s=0, c=0;//tan(theta), sin(theta), cos(theta)    
+    double aip=0, aiq=0, vip=0, viq=0;
+    double tau=0, t=0, s=0, c=0;//tan(theta), sin(theta), cos(theta)
     int count=1;                //count of iterations
-    int count_old=count-10;     //keep track of every 10th iteration    
+    int count_old=count-10;     //keep track of every 10th iteration
     int p=n-1, q=n-2;           //off diag all same value to start
                                 //pick last as first maximum
-    clock_t start, end;
+    time_point<high_resolution_clock> start, end;
 
     if(n<=10){
         cout<<"Before diagonalization"<<endl;
@@ -29,9 +30,9 @@ int jacobi(int n, double conv, mat& a, mat& v) {
     double app=a(p,p);
     double aqq=a(q,q);
     double apq=a(p,q);
-    
-    start=clock();
-    
+
+    start = high_resolution_clock::now();
+
     while(abs(apq)>conv){
         if(count>1){
             apq=0;
@@ -43,9 +44,9 @@ int jacobi(int n, double conv, mat& a, mat& v) {
         app=a(p,p);
         tau=(aqq-app)/(2*apq);
         if(tau>0)
-            t=1/(tau+sqrt(1+tau*tau));
+            t=-tau+sqrt(1+tau*tau);
         else
-            t=-1/(-tau+sqrt(1+tau*tau));   
+            t=-tau-sqrt(1+tau*tau);
         c=1/sqrt(1+t*t);
         s=c*t;
 
@@ -59,25 +60,21 @@ int jacobi(int n, double conv, mat& a, mat& v) {
                 a(i,q)=aiq*c+aip*s;
                 a(q,i)=aiq*c+aip*s;
             }
-            //vpi=v(p,i);
-            //vqi=v(q,i);
-            vpi=v(i,p);
-            vqi=v(i,q);
-            //v(p,i)=c*vpi-s*vqi;
-           // v(q,i)=c*vqi+s*vpi;
-            v(i,p)=c*vpi-s*vqi;
-            v(i,q)=c*vqi+s*vpi;
+            vip=v(i,p);
+            viq=v(i,q);
+            v(i,p)=c*vip-s*viq;
+            v(i,q)=c*viq+s*vip;
         }
         a(p,p)=app*c*c-2*apq*c*s+aqq*s*s;
         a(q,q)=app*s*s+2*apq*c*s+aqq*c*c;
         a(p,q)=0;
         a(q,p)=0;
-        
+
         count++;
     }
-    
-    end=clock();
-    
+
+    end=high_resolution_clock::now();
+
     if(n<=10){
         cout<<"After diagonalization"<<endl;
         print_vals(a,v,n,conv);
@@ -85,8 +82,9 @@ int jacobi(int n, double conv, mat& a, mat& v) {
     }
 
     cout<<"Diagonalization took "<<count<<" iterations"<<endl;
-    cout<<scientific<<"CPU time (sec) : "<<((double)end-(double)start)/CLOCKS_PER_SEC<<endl;
-    
+    duration<double> elapsed = end-start;
+    cout<<scientific<<"CPU time (sec) : "<<elapsed.count()<<endl;
+
     return 0;
 }
 
@@ -117,13 +115,14 @@ vector<double> get_eigenvals(mat a,int n){
 }
 
 //initialize matrix/vectors
-void initialize(int n, double h, mat& a, vec& r, mat& v,int interact,double wr){
+void initialize_schrodinger(int n, double h, mat& a,
+vec& r, mat& v,int interact,double wr){
     //initialize x values
     r(0)=h;
     for (int i=1; i<n ;i++){
         r(i)=r(i-1)+h;
     }
-    
+
     //initialize matrix and vector
     for (int i=0;i<n;i++){
         for (int j=0;j<n;j++){
@@ -137,7 +136,7 @@ void initialize(int n, double h, mat& a, vec& r, mat& v,int interact,double wr){
             }
             else if (i==j+1 or i==j-1){
                 a(i,j)=-1/(h*h);
-            } 
+            }
             else{
                 a(i,j)=0;
                 v(i,j)=0;
@@ -146,13 +145,14 @@ void initialize(int n, double h, mat& a, vec& r, mat& v,int interact,double wr){
     }
 }
 //initialize matrix/vectors
-void initialize2(int n, double h, mat& a, vec& r, mat& v,int interact,double wr){
+void initialize_beam(int n, double h, mat& a, vec& r, mat& v,
+int interact,double wr){
     //initialize x values
     r(0)=h;
     for (int i=1; i<n ;i++){
         r(i)=r(i-1)+h;
     }
-    
+
     //initialize matrix and vector
     for (int i=0;i<n;i++){
         for (int j=0;j<n;j++){
@@ -166,7 +166,7 @@ void initialize2(int n, double h, mat& a, vec& r, mat& v,int interact,double wr)
             }
             else if (i==j+1 or i==j-1){
                 a(i,j)=-1;
-            } 
+            }
             else{
                 a(i,j)=0;
                 v(i,j)=0;
@@ -211,5 +211,5 @@ void print_vals(mat A, mat v,int n,double conv){
             else cout<<"0.000 ";
         }
         cout<<endl;
-    }  
+    }
 }
