@@ -44,9 +44,9 @@ int jacobi(int n, double conv, mat& a, mat& v, double& time) {
         app=a(p,p);
         tau=(aqq-app)/(2*apq);
         if(tau>0)
-            t=-tau+sqrt(1+tau*tau);
+            t=1./(tau+sqrt(1+tau*tau));
         else
-            t=-tau-sqrt(1+tau*tau);
+            t=-1./(-tau+sqrt(1+tau*tau));
         c=1/sqrt(1+t*t);
         s=c*t;
 

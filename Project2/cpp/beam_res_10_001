@@ -1,4 +1,4 @@
-t_Jacobi: 1.78843000e-04 t_armadillo: 3.70770000e-05
+t_Jacobi: 1.79767000e-04 t_armadillo: 3.78540000e-05
 Jacobi eigenvalues:    Armadillo eigenvalues:
      8.10140528e+00            8.10140528e+00
      3.17492934e+01            3.17492934e+01
