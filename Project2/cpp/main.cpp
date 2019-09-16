@@ -27,6 +27,7 @@ int main(int argc, char** argv){
   initialize_classic(n, h, A, r, V, interact, wr);
   initialize_classic(n, h, A2, r, V, interact, wr);
   cout << V << endl;
+
   eig_sym(eigenval, eigenvec, A);
   jacobi(n,20,0.0000000000000001,A,V);
   cout << eigenvec << endl;
