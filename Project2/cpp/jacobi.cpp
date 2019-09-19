@@ -11,11 +11,11 @@ using namespace std::chrono;
 
 // performs jacobi algorithm
 // to find eigenvalues/vectors
-int jacobi(int n, double conv, mat& a, mat& v, double& time) {
+int jacobi(int n, double conv, mat& a, mat& v, double& time, int& count) {
     cout.precision(5);
     double aip=0, aiq=0, vip=0, viq=0;
     double tau=0, t=0, s=0, c=0;//tan(theta), sin(theta), cos(theta)
-    int count=1;                //count of iterations
+    count=1;                    //count of iterations
     int count_old=count-10;     //keep track of every 10th iteration
     int p=n-1, q=n-2;           //off diag all same value to start
                                 //pick last as first maximum
@@ -137,6 +137,7 @@ vec& r, mat& v,int interact,double wr){
             }
             else if (i==j+1 or i==j-1){
                 a(i,j)=-1*h2inv;
+                v(i,j)=0;
             }
             else{
                 a(i,j)=0;
@@ -167,6 +168,7 @@ int interact,double wr){
             }
             else if (i==j+1 or i==j-1){
                 a(i,j)=-1*h2inv;
+                v(i,j)=0;
             }
             else{
                 a(i,j)=0;
