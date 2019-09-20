@@ -21,5 +21,6 @@ ofstream ofile;
 
 int main{
     
+    
     return 0;
 }
