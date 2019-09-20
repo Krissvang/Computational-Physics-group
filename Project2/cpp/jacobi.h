@@ -21,5 +21,6 @@ mat get_eigenvecs(mat,mat,int);
 void initialize_classic(int, double, mat& , vec& , mat& ,int ,double );
 void initialize_schrodinger(int, double, mat&,vec&, mat&,int,double);
 void initialize_beam(int , double , mat& , vec& , mat&, int ,double );
+void write_eigenvalues(vec, mat);
 
 #endif /* JACOBI_H */

@@ -120,8 +120,7 @@ vector<double> get_eigenvals(mat a,int n){
 }
 
 //initialize matrix/vectors
-void initialize_schrodinger(int n, double h, mat& a,
-vec& r, mat& v,int interact,double wr){
+void initialize_schrodinger(int n, double h, mat& a, vec& r, mat& v,int interact,double wr){
     //initialize x values
     r(0)=h;
     for (int i=1; i<n ;i++){
@@ -150,8 +149,7 @@ vec& r, mat& v,int interact,double wr){
     }
 }
 //initialize matrix/vectors
-void initialize_beam(int n, double h, mat& a, vec& r, mat& v,
-int interact,double wr){
+void initialize_beam(int n, double h, mat& a, vec& r, mat& v,int interact,double wr){
     //initialize x values
     r(0)=h;
     for (int i=1; i<n ;i++){
@@ -247,4 +245,11 @@ void print_vals(mat A, mat v,int n,double conv){
         }
         cout<<endl;
     }  
+}
+
+void write_eigenvalues(vec eigenvals, mat eigenvecs){
+    ofstream myfile;
+    myfile.open("Output/Eigenvalues.txt");
+    myfile<<"Test"<<endl;
+    myfile.close();
 }

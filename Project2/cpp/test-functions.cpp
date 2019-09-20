@@ -5,11 +5,11 @@
 TEST_CASE("Testing max a(i,j)"){
     int n=3;
     double pmin=0, pmax=10,h = (pmax-pmin)/(double(n));
-    mat a = zeros<mat>(n,n);
+    mat a(n,n,fill::zeros);
     mat v = zeros<mat>(n,n);
     vec r(n);
     //initialize matrices and vector
-    initialize(n,h,a,r,v,0,0);
+    initialize_schrodinger(n,h,a,r,v,0,0);
     int p=0;
     int q=0;
     double apq=0;
@@ -29,7 +29,7 @@ TEST_CASE("Testing eigenvalues"){
     mat v = zeros<mat>(n,n);
     vec r(n);
     //initialize matrices and vector
-    initialize(n,h,a,r,v,0,0);
+    initialize_schrodinger(n,h,a,r,v,0,0);
     //do jacobi algorithm until convergence
     jacobi(n,100,conv,a,v);
     //get eigenvalue vector
@@ -47,7 +47,7 @@ TEST_CASE("Testing eigenvector orthogonality"){
     mat v = zeros<mat>(n,n);
     vec r(n);
     //initialize matrices and vector
-    initialize(n,h,a,r,v,0,0);
+    initialize_schrodinger(n,h,a,r,v,0,0);
     //do jacobi algorithm until convergence
     jacobi(n,100,conv,a,v);
     mat eigenvec=get_eigenvecs(a,v,n);

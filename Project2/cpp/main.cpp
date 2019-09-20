@@ -13,7 +13,7 @@ using namespace arma;
 
 int main(int argc, char** argv){
   //Constants
-  int n=3;
+  int n=10;
   double pi=3.14159265358979323846;
 
   //Matrices and vectors needed
@@ -26,12 +26,10 @@ int main(int argc, char** argv){
   //Just testing the algorithms
   initialize_classic(n, h, A, r, V, interact, wr);
   initialize_classic(n, h, A2, r, V, interact, wr);
-  cout << V << endl;
 
-  eig_sym(eigenval, eigenvec, A);
-  jacobi(n,20,0.0000000000000001,A,V);
-  cout << eigenvec << endl;
-  cout << V << endl;
-
+  eig_sym(eigenval, eigenvec, A2);
+  jacobi(n,1000,0.000000000001,A,V);
+  write_eigenvalues(eigenval,eigenvec);
+  
   return 0;
 }
