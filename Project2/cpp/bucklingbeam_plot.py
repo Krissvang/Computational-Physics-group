@@ -22,16 +22,17 @@ for n in nvalues:
     e_vals = []
     v0 = [0.]
     v1 = [0.]
-    v2 = [0.]
+    v2 = [0.]                             #Set u(0) = 0
     for line in infile:
         data = line.split()
         e_vals.append(float(data[0]))
         v0.append(float(data[2]))
         v1.append(float(data[3]))
         v2.append(float(data[4]))
+    infile.close()
     v0.append(0)
     v1.append(0)
-    v2.append(0)
+    v2.append(0)                          #Set u(1) = 0
     plt.figure()
     plt.plot(j,e_vals-e_vals_analytic,"x")
     plt.title("n = %d" %n)
