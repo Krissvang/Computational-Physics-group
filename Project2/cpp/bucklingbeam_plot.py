@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.stats import linregress
 
 nvalues = np.array([5,10,20,50,100,200,500])
 times =  []
@@ -18,21 +17,12 @@ for n in nvalues:
     #Read time and number of iterations from file, remove "("
     times.append(float(data[1]))
     iterations.append(int((data[2])[1:]))
-    infile.readline()                     #Skip second line
-    e_vals = []
-    v0 = [0.]
-    v1 = [0.]
-    v2 = [0.]                             #Set u(0) = 0
-    for line in infile:
-        data = line.split()
-        e_vals.append(float(data[0]))
-        v0.append(float(data[2]))
-        v1.append(float(data[3]))
-        v2.append(float(data[4]))
     infile.close()
-    v0.append(0)
-    v1.append(0)
-    v2.append(0)                          #Set u(1) = 0
+    v0 =np.zeros(n+2)
+    v1 =np.zeros(n+2)
+    v2 =np.zeros(n+2)
+    e_vals, e_vals_Jacobi, v0[1:-1], v1[1:-1], v2[1:-1] = \
+    np.loadtxt(fname,skiprows=2,unpack=True)
     plt.figure()
     plt.plot(j,e_vals-e_vals_analytic,"x")
     plt.title("n = %d" %n)
@@ -59,10 +49,10 @@ plt.figure()
 plt.plot(x,y1,"x",label="times")
 plt.plot(x,y2,"x",label="iterations")
 #Fit data to straight lines:
-m1, c1, r1, p1, s1 = linregress(x,y1)
-m2, c2, r2, p2, s2 = linregress(x,y2)
-plt.plot(x,m1*x+c1,label="%gx+%g"%(m1,c1))
-plt.plot(x,m2*x+c2,label="%gx+%g"%(m2,c2))
+p1 = np.polyfit(x,y1,1)
+p2 = np.polyfit(x,y2,1)
+plt.plot(x,p1[0]*x+p1[1],label="%gx+%g"%(p1[0],p1[1]))
+plt.plot(x,p2[0]*x+p2[1],label="%gx+%g"%(p2[0],p2[1]))
 plt.legend()
 plt.xlabel("log10(n)")
 plt.ylabel("log10(times or iterations)")
