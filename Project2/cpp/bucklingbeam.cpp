@@ -23,6 +23,7 @@ int main(int argc, char* argv[]){
   }
   else{
     fname = argv[1];
+    fname = "results/"+fname;
     tol = atof(argv[2]);
     tolstr = argv[2];
   }
