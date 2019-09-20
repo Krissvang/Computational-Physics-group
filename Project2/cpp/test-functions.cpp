@@ -28,10 +28,12 @@ TEST_CASE("Testing eigenvalues"){
     mat a = zeros<mat>(n,n);
     mat v = zeros<mat>(n,n);
     vec r(n);
+    double time = 0;
+    int count =0;
     //initialize matrices and vector
     initialize_schrodinger(n,h,a,r,v,0,0);
     //do jacobi algorithm until convergence
-    jacobi(n,100,conv,a,v);
+    jacobi(n,100,conv,a,v,time,count);
     //get eigenvalue vector
     vector<double>eigen=get_eigenvals(a,n);
     
@@ -46,10 +48,12 @@ TEST_CASE("Testing eigenvector orthogonality"){
     mat a = zeros<mat>(n,n);
     mat v = zeros<mat>(n,n);
     vec r(n);
+    double time = 0;
+    int count =0;
     //initialize matrices and vector
     initialize_schrodinger(n,h,a,r,v,0,0);
     //do jacobi algorithm until convergence
-    jacobi(n,100,conv,a,v);
+    jacobi(n,100,conv,a,v,time,count);
     mat eigenvec=get_eigenvecs(a,v,n);
 
     //test eigen vectors
