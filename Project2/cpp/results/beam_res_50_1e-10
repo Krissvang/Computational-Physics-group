@@ -1,4 +1,4 @@
-t_Jacobi: 3.04760450e-02 (4575 iterations) t_armadillo: 2.14693000e-04
+t_Jacobi: 3.09734120e-02 (4575 iterations) t_armadillo: 3.65825600e-03
 Jacobi eigenvalues:    Armadillo eigenvalues:                v0:                v1:                v2:
      9.86648391e+00            9.86648391e+00     1.21908760e-02     2.43355078e-02     3.63878267e-02
      3.94285087e+01            3.94285087e+01     2.43355078e-02     4.83021141e-02     7.15365096e-02
