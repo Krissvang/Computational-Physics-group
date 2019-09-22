@@ -30,7 +30,7 @@ int main(int argc, char* argv[]){
     }
     else{
         fname = argv[1];
-        fname = "results/"+fname;
+        //fname = "results/"+fname;
         tol = atof(argv[2]);
         tolstr = argv[2];
     }
@@ -40,23 +40,51 @@ int main(int argc, char* argv[]){
     
     while(n != 0){
         string outfile = fname;
-        outfile.append("_"+to_string(n)+"_"+tolstr);
+        //outfile.append("_"+to_string(n)+"_"+tolstr);
         
         mat A(n,n);
         mat V(n,n);
-        double h = 1./(n+1);
+        double max_r;
+        double h;
         vec r(n);
         int interact = 0;
         double wr = 0;
         vec e_vals(n);
-        vec eigenval;
-        int count;
+        int n_eigenval=5;
+        vec eigenval(n_eigenval);
+        //mat e_vecs(3,n);
+        
+        if(n<n_eigenval){
+            cout<<"n must be bigger than 4"<<endl;
+            exit(1);
+        }
+        
+        cout<<"Give max. r/alpha:"<<endl;
+        cin>>max_r;
+        h=max_r/(n+1);
         
         initialize(n, h, A, r, V, interact, wr);
         //cout<<A<<endl;
-        jacobi(n,tol,A,V,t_Jacobi,count);
+        jacobi(n,tol,A,V);
+        //cout<<A<<endl;
         e_vals=get_eigenvals(A,n);
-        e_vecs=get_eigenvecs(A,V,n);
+        //e_vecs=get_eigenvecs(A,V,n);
+        //cout<<e_vals;
+        
+        for(int i=0; i<n_eigenval; i++){
+            eigenval(i)=e_vals(i);
+        }
+        
+        //cout<<eigenval;
+        ofile.open(outfile+".txt");
+        ofile << setiosflags(ios::showpoint | ios::uppercase);
+        ofile << "r_max:" << max_r << endl;
+        ofile << "Jacobi eigenvalues:"<<endl;
+        for(int i=0; i<n_eigenval; i++){
+            ofile << setw(19) << setprecision(8) << eigenval[i] <<endl;
+        }
+        
+        ofile.close();
         
         cout << "Give next value of n (0 to end): " << endl;
         cin >> n;
