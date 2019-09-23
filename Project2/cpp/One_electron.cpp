@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
     //outfile.append("_"+to_string(n)+"_"+tolstr);
     
     int selection;
-    cout<<"Write 1 to keep n constant and to vary r_max. Write 2 vice versa. Write 0 for the defaul program"<<endl;
+    cout<<"Write 1 to keep n constant and to vary r_max. Write 0 for the defaul program"<<endl;
     cin>>selection;
     
     if(selection==0){
@@ -75,6 +75,7 @@ int main(int argc, char* argv[]){
                 ofile.open(outfile);
                 ofile << setiosflags(ios::showpoint | ios::uppercase);
                 ofile << "r_max:" << max_r << endl;
+                ofile << "tolerance:" << tol << endl;
                 ofile << "n:" << n << endl;
                 ofile << "Jacobi eigenvalues:           v0:               v1:              v2:"<<endl;
                 for(int i=0; i<n; i++){
@@ -140,6 +141,7 @@ int main(int argc, char* argv[]){
                 ofile.open(fileout);
                 ofile << setiosflags(ios::showpoint | ios::uppercase);
                 ofile << "r:" << r_rep[j] << endl;
+                ofile << "tolerance:" << tol << endl;
                 ofile << "n:" << n << endl;
                 ofile << "Jacobi eigenvalues:           v0:               v1:             v2:"<<endl;
                 for(int i=0; i<n; i++){
