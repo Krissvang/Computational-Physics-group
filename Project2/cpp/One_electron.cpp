@@ -108,7 +108,7 @@ int main(int argc, char* argv[]){
             double h;
             vec r(n);
             int interact = 0;
-            int r_interval=0;
+            double r_interval=0;
             double wr = 0;
             vec r_rep(10);
             vec e_vals(n);
