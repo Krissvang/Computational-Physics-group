@@ -120,7 +120,7 @@ int main(int argc, char* argv[]){
             cout<<"Give min. r/alpha:"<<endl;
             cin>>min_r;
             
-            r_interval=(max_r-min_r)/10;
+            r_interval=(max_r-min_r)/double(10.0);
             r_rep(0)=min_r;
             for(int i=1; i<10; i++){
                 r_rep(i)=r_rep(i-1)+r_interval;
