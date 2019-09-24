@@ -13,9 +13,9 @@
 int jacobi(int n, double conv, mat& a, mat& v) {
     cout.precision(5);
     double aip=0, aiq=0, vpi=0, vqi=0;
-    double tau=0, t=0, s=0, c=0;//tan(theta), sin(theta), cos(theta)    
+    double tau=0, t=0, s=0, c=0;//tan(theta), sin(theta), cos(theta)
     int count=1;                //count of iterations
-    int count_old=count-10;     //keep track of every 10th iteration    
+    int count_old=count-10;     //keep track of every 10th iteration
     int p=n-1, q=n-2;           //off diag all same value to start
                                 //pick last as first maximum
     clock_t start, end;
@@ -45,7 +45,7 @@ int jacobi(int n, double conv, mat& a, mat& v) {
         if(tau>0)
             t=1/(tau+sqrt(1+tau*tau));
         else
-            t=-1/(-tau+sqrt(1+tau*tau));   
+            t=-1/(-tau+sqrt(1+tau*tau));
         c=1/sqrt(1+t*t);
         s=c*t;
 
