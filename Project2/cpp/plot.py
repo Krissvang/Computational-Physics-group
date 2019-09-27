@@ -1,11 +1,11 @@
-#If using python2 remove comment from ine under
-#from __future__ import unicode_literals
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 import numpy as np
-import matplotlib 
+import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import sys
 import os
 import json
 
@@ -28,7 +28,7 @@ run_unit_tests=data['run_unit_tests']
 def plot_number_of_transfos(res):
   #Data to compare
   count = np.loadtxt("../cpp/output/number_of_transfos.txt",skiprows=1, unpack=True)
-  
+
   #Plotting configurations
   plt.figure()
   plt.xscale('log')
@@ -41,19 +41,19 @@ def plot_number_of_transfos(res):
   #Plots
   x=np.arange(3,len(count)+3)
   plt.plot(x,count,'b.', label='Number of transformations')
-  
+
   #Finds the second order polynomial which fits the function and plots it
   p=np.polyfit(x,count,2)
   plt.plot(x,p[2]+p[1]*x+p[0]*x*x, label='Polynomial fit by $%sx^2+%sx%s$'%(str(round(p[0],1)),str(round(p[1],1)),str(round(p[2],1))))
-  
+
   plt.legend()
   plt.savefig("img/number_of_transfos_res_%s.pdf"%(res))
 
 
 def plot_solution(alg , res ,wr ,Max):
   #Plotting the two electron problem
-  if(alg.lower()=='qho_int'): 
-    
+  if(alg.lower()=='qho_int'):
+
     #Gets the eigenvals and eigenvecs
     v_0=np.zeros(res+2)
     j_vals, a_vals, v_0[1:-1],v_1,v_2=np.loadtxt("output/%s_res_%d_wr=%s.txt"%(alg,res,str(wr)), skiprows=2, unpack=True)
@@ -73,7 +73,7 @@ def plot_solution(alg , res ,wr ,Max):
     #Gets the eigenvals and eigenvecs
     j_vals, a_vals, v_0,v_1,v_2=np.loadtxt("output/%s_res_%d.txt"%(alg,res), skiprows=2, unpack=True)
     x=np.arange(0,Max,Max/len(v_0))
-    
+
     #Plots and plotting configs
     plt.figure(figsize=(8, 6))
     plt.xlabel(r"$\rho$")
@@ -95,7 +95,7 @@ def plot_solution(alg , res ,wr ,Max):
     #Plots and plotting configs
     plt.figure(figsize=(8, 6))
     plt.xlabel(r"$\rho = x/L$")
-    plt.ylabel(r"u($\rho$)") 
+    plt.ylabel(r"u($\rho$)")
     plt.title("First three solutions to the buckeling beam problem.")
     plt.plot(x,v_0, label = 'First eigenvalue. $\lambda = %s$'%(str(round(j_vals[0],1))))
     plt.plot(x,v_1, label = 'Second eigenvalue. $\lambda = %s$'%(str(round(j_vals[1],1))))
