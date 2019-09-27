@@ -4,6 +4,6 @@
   "run_unit_tests":"No",
   "alg": "qho_int",
   "res": 300,
-  "wr": 0.25,
+  "wr": 0.05,
   "Max": 40
 }
