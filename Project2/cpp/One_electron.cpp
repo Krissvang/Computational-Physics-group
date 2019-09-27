@@ -19,10 +19,13 @@ using namespace arma;
 
 ofstream ofile;
 
+//Begin main program
 int main(int argc, char* argv[]){
     string fname;         //beginning of filename; filenames will be "fname_m"
     double tol;           //max. allowed off-diagonal value in Jabobi's method
     string tolstr;
+    
+    //We get the filename and the tolerance from the user
     if(argc <= 2){
         cout << "No filename and/or tolerance; read filename and tolerance for "
         "Jacobi method on the same line." << endl;
@@ -35,37 +38,39 @@ int main(int argc, char* argv[]){
         tolstr = argv[2];
     }
     
-
+    //Definition of the output file
     string outfile = fname;
-    //outfile.append("_"+to_string(n)+"_"+tolstr);
     
+    //We let the user choose if he wants to vary r_max or not
     int selection;
     cout<<"Write 1 to keep n constant and to vary r_max. Write 0 for the defaul program"<<endl;
     cin>>selection;
     
+    //Case in which we do not vary n
     if(selection==0){
             int n;
+            //Here the user chooses the number of points of the discretize solution
             cout << "Give the value of n (0 to end):" << endl;
             cin >> n;
     
+            //While cicle to make the user choose different values of n after the first iteration
             while(n != 0){
             
-                mat A(n,n);
-                mat V(n,n);
-                double max_r;
-                double h;
-                vec r(n);
+                //declaration of varibles
+                mat A(n,n); mat V(n,n); mat e_vecs(3,n);
+                double max_r; double h; double wr = 0;
+                vec r(n); vec e_vals(n);
                 int interact = 0;
-                double wr = 0;
-                vec e_vals(n);
-                mat e_vecs(3,n);
-        
+                
+                //Here the user chooses the value of r_max
                 cout<<"Give max. r/alpha:"<<endl;
                 cin>>max_r;
                 h=max_r/(n+1);
         
+                //Initialization of the matrix
                 initialize(n, h, A, r, V, interact, wr);
                 //cout<<A<<endl;
+                
                 jacobi(n,tol,A,V);
                 //cout<<A<<endl;
                 e_vals=get_eigenvals(A,n);
@@ -89,7 +94,11 @@ int main(int argc, char* argv[]){
         
                 cout << "Give next value of n (0 to end): " << endl;
                 cin >> n;
+                
+            //end of the while cicle
             }
+        
+        //End of the case in which we do not vary n
         }
             
             
