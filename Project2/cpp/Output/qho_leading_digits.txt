@@ -1,0 +1,6 @@
+Number of iterations
+4955
+Eigenvalues
+2.99693
+6.98465
+10.9626
