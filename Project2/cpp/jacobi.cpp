@@ -270,7 +270,7 @@ void output_count_beam(int n, string filename, double h, double wr, int interact
     ofile << setiosflags(ios::showpoint);
     ofile << "Count" << endl;
     double time=0;
-    for (int i = 3; i < n; i++)
+    for (int i = 2; i < n; i++)
     {
         int count=0;
         mat A_temp(i,i);
