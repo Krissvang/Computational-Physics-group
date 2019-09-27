@@ -1,3 +1,6 @@
+#If using python2 remove comment from ine under
+#from __future__ import unicode_literals
+
 import numpy as np
 import matplotlib 
 matplotlib.use('Agg')
