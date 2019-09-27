@@ -49,7 +49,7 @@ int main(int argc, char* argv[]){
             cin >> n;
     
             while(n != 0){
-        
+            
                 mat A(n,n);
                 mat V(n,n);
                 double max_r;
