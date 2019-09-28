@@ -1,6 +1,6 @@
 //
 //  One_electron.cpp
-//  
+//  This program solves the problem of une electron in a harmonic oscillator potential
 //
 // 
 //
@@ -77,7 +77,6 @@ int main(int argc, char* argv[]){
                 
                 //Diagonalization of the matrix (this function are written in the jacobi.cpp file)
                 jacobi(n,1000,tol,A,V,time,count);
-                //cout<<A<<endl;
                 
                 //Here we get the eigenvalues and eigenvectors (this function are written in the jacobi.cpp file)
                 e_vals=get_eigenvals(A,n);
@@ -104,7 +103,10 @@ int main(int argc, char* argv[]){
                 //Here we let the user choose if he wants to run the program with a different value for n
                 cout << "Give next value of n (0 to end): " << endl;
                 cin >> n;
+            
+            //End of the while cicle
             }
+        //End of the case in which we do not vary n
         }
            
     //Case in which we vary n
@@ -143,15 +145,23 @@ int main(int argc, char* argv[]){
                 //Definition of the step lenght
                 h=r_rep(j)/(n+1);
         
+                //Initialization of the matrix (this function are written in the jacobi.cpp file)
                 initialize_schrodinger(n, h, A, r, V, interact, wr);
+                
+                //Diagonalization of the matrix (this function are written in the jacobi.cpp file)
                 jacobi(n,1000,tol,A,V,time,count);
+                
+                //Here we get the eigenvalues and eigenvectors (this function are written in the jacobi.cpp file)
                 e_vals=get_eigenvals(A,n);
                 e_vecs=get_eigenvecs(A,V,n);
                 
+                //Definition of the output file
                 string fileout = fname;
                 string argument = to_string(j);
                 fileout.append(argument);
                 
+                //Here we print the results on a file
+                //We open the file
                 ofile.open(fileout);
                 ofile << setiosflags(ios::showpoint | ios::uppercase);
                 ofile << "r:" << r_rep[j] << endl;
@@ -165,9 +175,14 @@ int main(int argc, char* argv[]){
                     ofile << setw(19) << setprecision(8) << e_vecs(2,i) << endl;
                 }
         
+            //We close the file
             ofile.close();
+                
+            //End of the for cicle
             }
+        //End of the wile cicle
         }
     
     return 0;
+ //End of the main program
 }
