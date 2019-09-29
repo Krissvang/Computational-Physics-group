@@ -57,7 +57,7 @@ def plot_solution(alg , res ,wr ,Max):
     x=np.linspace(0,Max,res+2)
 
     #Plots and plotting configs
-    plt.figure(figsize=(8, 6))
+    plt.figure()
     plt.xlabel(r"$\rho$")
     plt.ylabel(r"$\varphi(\rho)$")
     plt.title("Interacting quantum harmonic oscillator ground state. $\omega_r=%s$"%(str(wr)))
@@ -81,7 +81,7 @@ def plot_solution(alg , res ,wr ,Max):
     plt.savefig("img/%s_res_%d.pdf"%(alg,res))
 
     #Beam problem
-  else:
+  elif(alg.lower()=='beam'):
     #Gets eigenvecs and eigenvals
     v_0 =np.zeros(res+2)
     v_1 =np.zeros(res+2)
@@ -100,10 +100,42 @@ def plot_solution(alg , res ,wr ,Max):
     plt.legend(prop={'size': 8})
     plt.savefig("img/%s_res_%d.pdf"%(alg,res))
 
+  elif(alg.lower()=='all'):
+          #Gets the eigenvals and eigenvecs
+    v_00=np.zeros(100+2)
+    v_01=np.zeros(100+2)
+    v_02=np.zeros(200+2)
+    v_03=np.zeros(300+2)
+  
+    j_vals, a_vals, v_00[1:-1],v_1,v_2=np.loadtxt("output/qho_int_res_100_wr=0.01.txt", skiprows=2, unpack=True)
+    j_vals, a_vals, v_01[1:-1],v_1,v_2=np.loadtxt("output/qho_int_res_100_wr=0.5.txt", skiprows=2, unpack=True)
+    j_vals, a_vals, v_02[1:-1],v_1,v_2=np.loadtxt("output/qho_int_res_200_wr=1.txt", skiprows=2, unpack=True)
+    j_vals, a_vals, v_03[1:-1],v_1,v_2=np.loadtxt("output/qho_int_res_300_wr=5.txt", skiprows=2, unpack=True)
+    x1=np.linspace(0,10,100+2)
+    x2=np.linspace(0,10,200+2)
+    x3=np.linspace(0,10,300+2)
+    x0=np.linspace(0,Max,res+2)
+
+
+    #Plots and plotting configs
+    plt.figure()
+    plt.xlabel(r"$\rho$")
+    plt.ylabel(r"$\varphi(\rho)$")
+    plt.title("Interacting quantum harmonic oscillator ground state.")
+    plt.plot(x1,v_01, label = r'$\omega_r$=0.5')
+    plt.plot(x2,v_02, label = r'$\omega_r$=1')
+    plt.plot(x3,v_03, label = r'$\omega_r$=5')
+    plt.legend()
+    plt.savefig("img/qho_int.pdf")
+  else:
+    print("Choose a valid algorithm")
 
 #Determines what runs decided by the configurations
-if(plot_solution_var.lower()=='yes'):
+if(plot_solution_var.lower()=='yes' and alg.lower()!='all'):
   os.system("g++ -O3 -o %s %s.cpp jacobi.cpp -larmadillo && ./%s %s %s %s"%(alg,alg,alg,str(res),str(Max),str(wr)))
+  plot_solution(alg,res,wr,Max)
+
+if(plot_solution_var.lower()=='yes' and alg.lower()=='all'):
   plot_solution(alg,res,wr,Max)
 
 if(plot_number_of_transfos_var.lower()=='yes'):

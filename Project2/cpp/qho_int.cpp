@@ -54,7 +54,7 @@ int main(int argc, char** argv){
     ss << wr;
     string filename = "qho_int_res_";
     filename.append(to_string(n)+"_wr="+ss.str()+".txt");
-    
+    cout << 1.25-jacobi_e_vals(0)<<endl;
     write_eigenpairs(jacobi_e_vals, e_vecs,   eigenval, t_jacobi, 0, filename , count, n);
     return 0;
   }

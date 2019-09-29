@@ -3,7 +3,7 @@
   "plot_number_of_transformations":"No",
   "run_unit_tests":"No",
   "alg": "qho_int",
-  "res": 200,
+  "res": 300,
   "wr": 0.25,
-  "Max": 40
+  "Max": 10
 }
