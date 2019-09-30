@@ -11,6 +11,7 @@
 // use namespace and armadillo for output and input
 using namespace std;
 using namespace arma;
+using namespace std::chrono;
 
 int main(int argc, char** argv){
     if(argc<=3){
@@ -32,16 +33,25 @@ int main(int argc, char** argv){
     vec eigenval;
     mat eigenvec;
     double t_jacobi=0;
+    double *t_arma = new double(0);
     int count = 0;
 
     
 
 
-    //Just testing the algorithms
+    //Initializing matrices
     initialize_schrodinger(n, h, A, r, V, interact, wr);
     initialize_schrodinger(n, h, A2, r, V, interact, wr);
 
+    time_point<high_resolution_clock> start, end;
+
+    start = high_resolution_clock::now();
+    //run armadillo
     eig_sym(eigenval, eigenvec, A2);
+    end = high_resolution_clock::now();
+
+    duration<double> elapsed = end-start;
+    *t_arma = elapsed.count();
 
     jacobi(n,1000,tol,A,V,t_jacobi, count);  
     vec jacobi_e_vals(n);
@@ -55,7 +65,7 @@ int main(int argc, char** argv){
     string filename = "qho_int_res_";
     filename.append(to_string(n)+"_wr="+ss.str()+".txt");
     
-    write_eigenpairs(jacobi_e_vals, e_vecs,   eigenval, t_jacobi, 0, filename , count, n);
+    write_eigenpairs(jacobi_e_vals, e_vecs,   eigenval, t_jacobi, *t_arma, filename , count, n);
     return 0;
   }
 }
