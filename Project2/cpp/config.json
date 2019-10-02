@@ -1,9 +1,9 @@
 {
-  "plot_solution":"No",
-  "plot_number_of_transformations":"Yes",
-  "run_unit_tests":"No",
-  "alg": "beam",
-  "res": 200,
-  "wr": 0,
-  "Max": 40
+  "plot_solution":"Yes",
+  "plot_number_of_transformations":"no",
+  "run_unit_tests":"Yes",
+  "alg": "qho_no_int",
+  "res": 3,
+  "wr": 0.1,
+  "Max": 10
 }

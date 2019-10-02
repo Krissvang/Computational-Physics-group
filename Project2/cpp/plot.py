@@ -1,6 +1,6 @@
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+#import sys
+#reload(sys)
+#sys.setdefaultencoding('utf8')
 
 import numpy as np
 import matplotlib
@@ -78,7 +78,8 @@ def plot_solution(alg , res ,wr ,Max):
   #One electron problem
   elif(alg.lower()=='qho_no_int'):
     #Gets the eigenvals and eigenvecs
-    j_vals, a_vals, v_0,v_1,v_2=np.loadtxt("output/%s_res_%d.txt"%(alg,res), skiprows=2, unpack=True)
+    v_0=np.zeros(res+2)
+    j_vals, a_vals, v_0[1:-1],v_1,v_2=np.loadtxt("output/%s_res_%d.txt"%(alg,res), skiprows=2, unpack=True)
     x=np.linspace(0,Max,res+2)
 
     #Plots and plotting configs
