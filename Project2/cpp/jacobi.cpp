@@ -5,13 +5,14 @@
 #include<chrono>
 #include<algorithm>
 #include<vector>
-using namespace std::chrono;
 
 #include "jacobi.h"
 
+using namespace std::chrono;
+
 // performs jacobi algorithm
 // to find eigenvalues/vectors
-int jacobi(int n, double conv, mat& a, mat& v, double& time, int& count) {
+int jacobi(int n, int maxcount, double conv, mat& a, mat& v, double& time, int& count) {
     cout.precision(5);
     double aip=0, aiq=0, vip=0, viq=0;
     double tau=0, t=0, s=0, c=0;//tan(theta), sin(theta), cos(theta)
@@ -116,8 +117,7 @@ vector<double> get_eigenvals(mat a,int n){
 }
 
 //initialize matrix/vectors
-void initialize_schrodinger(int n, double h, mat& a,
-vec& r, mat& v,int interact,double wr){
+void initialize_schrodinger(int n, double h, mat& a, vec& r, mat& v,int interact,double wr){
     //initialize x values
     r(0)=h;
     for (int i=1; i<n ;i++){
@@ -137,7 +137,6 @@ vec& r, mat& v,int interact,double wr){
             }
             else if (i==j+1 or i==j-1){
                 a(i,j)=-1*h2inv;
-                v(i,j)=0;
             }
             else{
                 a(i,j)=0;
@@ -147,8 +146,7 @@ vec& r, mat& v,int interact,double wr){
     }
 }
 //initialize matrix/vectors
-void initialize_beam(int n, double h, mat& a, vec& r, mat& v,
-int interact,double wr){
+void initialize_beam(int n, double h, mat& a, vec& r, mat& v,int interact,double wr){
     //initialize x values
     r(0)=h;
     for (int i=1; i<n ;i++){
@@ -168,7 +166,36 @@ int interact,double wr){
             }
             else if (i==j+1 or i==j-1){
                 a(i,j)=-1*h2inv;
+            }
+            else{
+                a(i,j)=0;
                 v(i,j)=0;
+            }
+        }
+    }
+}
+
+//initialize matrix/vectors
+void initialize_classic(int n, double h, mat& a, vec& r, mat& v,int interact,double wr){
+    //initialize x values
+    r(0)=h;
+    for (int i=1; i<n ;i++){
+        r(i)=r(i-1)+h;
+    }
+
+    //initialize matrix and vector
+    for (int i=0;i<n;i++){
+        for (int j=0;j<n;j++){
+            if(i==j && interact==0){
+                a(i,j)=2;
+                v(i,j)=1;
+            }
+            else if (i==j && interact==1){
+                a(i,j)=2;
+                v(i,j)=1;
+            }
+            else if (i==j+1 or i==j-1){
+                a(i,j)=-1;
             }
             else{
                 a(i,j)=0;
@@ -216,3 +243,43 @@ void print_vals(mat A, mat v,int n,double conv){
         cout<<endl;
     }
 }
+
+void write_eigenpairs(vec jacobi_e_vals, mat e_vecs, vec armadillo_eigenval, double t_Jacobi, double t_arma, string outfile,int count, int n){
+    outfile="output/"+outfile;
+    ofstream ofile;
+    ofile.open(outfile);
+    ofile << setiosflags(ios::showpoint);
+    ofile << "t_Jacobi: " << scientific << t_Jacobi << " (" << count
+    << " iterations) t_armadillo: " << scientific << t_arma << endl;
+    ofile << "Jacobi eigenvalues:    Armadillo eigenvalues:                v0:"
+    "                v1:                v2:" << endl;
+    for(int i = 0; i < n; i++){
+      ofile << setw(19) << setprecision(8) << jacobi_e_vals[i];
+      ofile << setw(26) << setprecision(8) << armadillo_eigenval[i];
+      ofile << setw(19) << setprecision(8) << e_vecs(0,i);
+      ofile << setw(19) << setprecision(8) << e_vecs(1,i);
+      ofile << setw(19) << setprecision(8) << e_vecs(2,i) << endl;
+    }
+    ofile.close();
+}
+
+void output_count_beam(int n, string filename, double h, double wr, int interact ){
+    ofstream ofile;
+    filename="output/"+filename;
+    ofile.open(filename);
+    ofile << setiosflags(ios::showpoint);
+    ofile << "  Count:       CPU time (s):"<< endl;
+    double time=0;
+    for (int i = 2; i < n; i++)
+    {
+        int count=0;
+        mat A_temp(i,i);
+        mat V_temp(i,i);
+        vec r_temp(i);
+        initialize_beam(i, h, A_temp, r_temp, V_temp, interact, wr);
+        jacobi(i,500,0.0000000001,A_temp,V_temp,time,count);
+        ofile << setw(8) << count;
+        ofile << setw(20) << setprecision(8) << time << endl;
+    }
+    ofile.close();
+};

@@ -1,0 +1,9 @@
+{
+  "plot_solution":"Yes",
+  "plot_number_of_transformations":"no",
+  "run_unit_tests":"Yes",
+  "alg": "qho_no_int",
+  "res": 3,
+  "wr": 0.1,
+  "Max": 10
+}
