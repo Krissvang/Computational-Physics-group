@@ -4,6 +4,7 @@
 #include "lib.h"
 #include <chrono>
 #include <mpi.h>
+#include <time.h>
 using namespace std;
 using namespace std::chrono;
 
@@ -12,19 +13,23 @@ double improved_MC(double *);
 int main(int nargs, char* args[])
 {
      time_point<high_resolution_clock> start, end;
+     time_point<system_clock> time2;
      start = high_resolution_clock::now();
+     time2 = system_clock::now();
+     duration<double> duration_in_seconds =duration<double>(time2.time_since_epoch());
+     long t2= duration_in_seconds.count();
      int numprocs, my_rank, i, n;
-     n=100000000;
+     n=10000000;
      MPI_Init (&nargs, &args);
      MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
      MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
      int local_n=n/numprocs;
-
      double x[6], y1, y2, r, fx; //x = [r1,r2,theta1,theta2,phi1,phi2]
 
      double int_mc = 0.;  double variance = 0.;
      double local_int_mc=0.; double local_variance=0.;
-     double sum_sigma= 0. ; long idum=-1 ;
+     double sum_sigma= 0. ; long idum=t2+my_rank;
+     cout << t2*my_rank << endl;
      double local_sum_sigma=0.;
      double jacobi_det = 4*pow(acos(-1.),4.)*1/16;
 
@@ -46,16 +51,20 @@ int main(int nargs, char* args[])
        local_int_mc += fx;
        local_sum_sigma += fx*fx;
      }
-     local_int_mc = local_int_mc/((double) local_n );
-     local_sum_sigma = local_sum_sigma/((double) local_n );
+     local_int_mc = local_int_mc;
+     local_sum_sigma = local_sum_sigma;
      local_variance=local_sum_sigma-local_int_mc*local_int_mc;
      MPI_Reduce(&local_int_mc, &int_mc, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+     MPI_Reduce(&local_sum_sigma, &sum_sigma, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+     int_mc*=1./n;
+     sum_sigma*=1./n;
+     variance = sum_sigma-int_mc*int_mc;
      end = high_resolution_clock::now();
      duration<double> elapsed = end-start;
      double time = elapsed.count();
     //   final output
      if( my_rank==0){
-     cout << "Standard deviation = "<< jacobi_det*sqrt(variance/n) <<  " Integral = " << jacobi_det*int_mc/numprocs << " exact= " << 5*M_PI*M_PI/(16*16) << " Time = " << time << endl; 
+     cout << "Standard deviation = "<< jacobi_det*sqrt(variance/n) <<  " Integral = " << jacobi_det*int_mc << " exact= " << 5*M_PI*M_PI/(16*16) << " Time = " << time << endl; 
      }
      MPI_Finalize();
      return 0;
