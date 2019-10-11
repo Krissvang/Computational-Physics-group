@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cmath>
+#include <chrono>
+
 using namespace std;
+using namespace std::chrono;
 
 //     Here we define various functions called by the main program  
 //     this function defines the function to integrate  
@@ -14,6 +17,8 @@ int main()
      double MCint, MCintsqr2, fx, Variance; 
      cout << "Read in the number of Monte-Carlo samples" << endl;
      cin >> n;
+     time_point<high_resolution_clock> start, end;
+     start = high_resolution_clock::now();
      MCint = MCintsqr2=0.;
      double invers_period = 1./RAND_MAX; // initialise the random number generator
      srand(time(NULL));  // This produces the so-called seed in MC jargon
@@ -28,8 +33,11 @@ int main()
      MCint = MCint/((double) n );
      MCintsqr2 = MCintsqr2/((double) n );
      double variance=MCintsqr2-MCint*MCint;
+     end = high_resolution_clock::now();
+     duration<double> elapsed = end-start;
+     double time = elapsed.count();
 //   final output 
-     cout << "Variance= " << variance << ", Integral = " << MCint << " Exact= " << M_PI << endl;
+     cout << "Variance= " << variance << ", Integral = " << MCint << " Exact= " << M_PI  << "Time =" << time << endl;
 }  // end of main program 
 // this function defines the function to integrate 
 double func(double x)
