@@ -2,7 +2,9 @@
 #include <cmath>
 #include <iostream>
 #include "lib.h"
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 double improved_MC(double *);
 //     Main function begins here
@@ -10,9 +12,11 @@ int main()
 {
      int n;
      double x[6], y1, y2, r, fx; //x = [r1,r2,theta1,theta2,phi1,phi2]
-     printf("Read in the number of Monte-Carlo samples\n");
-     scanf("%d", &n);
-
+     cout << "Read in the number of Monte-Carlo samples"<< endl;
+     cin >> n;
+     
+     time_point<high_resolution_clock> start, end;
+     start = high_resolution_clock::now();
      double int_mc = 0.;  double variance = 0.;
      double sum_sigma= 0. ; long idum=-1 ;
      double jacobi_det = 4*pow(acos(-1.),4.)*1/16;
@@ -38,8 +42,11 @@ int main()
      int_mc = int_mc/((double) n );
      sum_sigma = sum_sigma/((double) n );
      variance=sum_sigma-int_mc*int_mc;
+     end = high_resolution_clock::now();
+     duration<double> elapsed = end-start;
+     double time = elapsed.count();
 //   final output
-     printf("%d standard deviation= %12.5E, Inum= %12.5E, exact= %f", n, jacobi_det*sqrt(variance/n), jacobi_det*int_mc, 5*M_PI*M_PI/(16*16));
+     cout << "Standard deviation = "<< jacobi_det*sqrt(variance/n) <<  " Integral = " << jacobi_det*int_mc << " exact= " << 5*M_PI*M_PI/(16*16) << " Time = " << time << endl;
      return 0;
 }  // end of main program
 

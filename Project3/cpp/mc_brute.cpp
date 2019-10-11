@@ -2,6 +2,9 @@
 #include <cmath>
 #include <iostream>
 #include "lib.h"
+#include <chrono>
+
+using namespace std::chrono;
 using namespace std;
 
 double brute_force_MC(double *);
@@ -10,9 +13,10 @@ int main()
 {
      int n;
      double x[6], y, fx;
-     printf("Read in the number of Monte-Carlo samples\n");
-     scanf("%d", &n);
-
+     cout << "Read in the number of Monte-Carlo samples" << endl;
+     cin >> n;
+     time_point<high_resolution_clock> start, end;
+     start = high_resolution_clock::now();
      double int_mc = 0.;  double variance = 0.;
      double sum_sigma= 0. ; long idum=-1 ;
      double length=10.; // we fix the max size of the box to L=20
@@ -31,8 +35,11 @@ int main()
      int_mc = int_mc/((double) n );
      sum_sigma = sum_sigma/((double) n );
      variance=sum_sigma-int_mc*int_mc;
+     end = high_resolution_clock::now();
+     duration<double> elapsed = end-start;
+     double time = elapsed.count();
 //   final output
-     printf("%d standard deviation= %12.5E, Inum= %12.5E, exact= %f", n, jacobi_det*sqrt(variance/n), jacobi_det*int_mc, 5*M_PI*M_PI/(16*16));
+     cout << "Standard deviation=" << jacobi_det*sqrt(variance/n) <<" Integral= " << jacobi_det*int_mc <<" Exact= " << 5*M_PI*M_PI/(16*16) << " Time = "<< time << endl;
      return 0;
 }  // end of main program
 
