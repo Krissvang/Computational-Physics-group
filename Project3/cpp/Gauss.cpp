@@ -162,8 +162,7 @@ int main()
                     for (int l = 1;l<N+1;l++){
                         for (int m = 0;m<N;m++){
                             for (int n = 0;n<N;n++){
-                                int_gausslag+=w_r[i]*w_theta[j]*w_phi[k]*w_r[l]*w_theta[m]*w_phi[n]
-                                    *int_function(x_r[i],x_theta[j],x_phi[k],x_r[l],x_theta[m],x_phi[n]);
+                                int_gausslag+=w_r[i]*w_theta[j]*w_phi[k]*w_r[l]*w_theta[m]*w_phi[n]*int_function(x_r[i],x_theta[j],x_phi[k],x_r[l],x_theta[m],x_phi[n]);
                     }}}}}
         }
         
