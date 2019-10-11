@@ -127,8 +127,6 @@ int main()
         cout << "Write the output file name" <<endl;
         cin >> outfile;
         
-        double alf = 1.0;
-        
         //reserve space in memory for vectors containing the mesh points
         //weights and function values for the use of the gauss-laguerre
         //method
@@ -157,8 +155,17 @@ int main()
         //   evaluate the integral with the Gauss-Laguerre method
         //   Note that we initialize the sum
         double int_gausslag = 0.;
-        
-        
+        //six-double loops
+        for (int i=1;i<N+1;i++){
+            for (int j = 0;j<N;j++){
+                for (int k = 0;k<N;k++){
+                    for (int l = 1;l<N+1;l++){
+                        for (int m = 0;m<N;m++){
+                            for (int n = 0;n<N;n++){
+                                int_gausslag+=w_r[i]*w_theta[j]*w_phi[k]*w_r[l]*w_theta[m]*w_phi[n]
+                                    *int_function(x_r[i],x_theta[j],x_phi[k],x_r[l],x_theta[m],x_phi[n]);
+                    }}}}}
+        }
         
         ofile.open(outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
@@ -166,7 +173,7 @@ int main()
         ofile << "number of points:" << endl;
         ofile << N << endl;
         ofile << "integral result:" <<endl;
-        ofile << int_gauss << endl;
+        ofile << int_gausslag << endl;
         
         
         delete [] x_theta;
@@ -196,10 +203,11 @@ double int_function(double x1, double y1, double z1, double x2, double y2, doubl
 //  this function defines the function to integrate with the improved Gauss Quadrature
 double int_improved_function(double r1, double theta1, double phi1, double r2, double theta2, double phi2)
 {
+    double beta;
     beta=cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2)*cos(phi1-phi2);
     double deno=sqrt(pow(r1,2)+pow(r2,2)-2*r1*r2*beta);
     if(deno<1e-10) return 0;
-    else return sin(theta1)*sin(theta2)*exp(-3*(r1+r2))/deno;
+    else return sin(theta1)*sin(theta2)/deno/1024;
 } // end of function to evaluate
 
 
