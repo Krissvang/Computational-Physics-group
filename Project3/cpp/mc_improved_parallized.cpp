@@ -29,7 +29,6 @@ int main(int nargs, char* args[])
      double int_mc = 0.;  double variance = 0.;
      double local_int_mc=0.; double local_variance=0.;
      double sum_sigma= 0. ; long idum=t2+my_rank;
-     cout << t2*my_rank << endl;
      double local_sum_sigma=0.;
      double jacobi_det = 4*pow(acos(-1.),4.)*1/16;
 

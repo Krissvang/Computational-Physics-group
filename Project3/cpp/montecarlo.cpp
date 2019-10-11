@@ -9,9 +9,13 @@ using namespace std::chrono;
 void mc_bruteforce(double (*func) (double *), int n, double R, double& int_mc, double& std_dev, double& time){
   double x[6], y, fx;
   time_point<high_resolution_clock> start, end;
+  time_point<system_clock> time2;
+  time2 = system_clock::now();
   start = high_resolution_clock::now();
+  duration<double> duration_in_seconds =duration<double>(time2.time_since_epoch());
+  long t2= duration_in_seconds.count();
   int_mc = 0.;  double variance = 0.;
-  double sum_sigma= 0. ; long idum=-1 ;
+  double sum_sigma= 0. ; long idum=t2 ;
   double jacobi_det=pow((2*R),6);
 
   for ( int i = 1;  i <= n; i++){
