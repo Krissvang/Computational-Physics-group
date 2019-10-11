@@ -1,4 +1,5 @@
 //   This is a simple program which tests Gaussian quadrature using Legendre and Laguerre polynomials
+//  MODIFY THIS
 //   It integrates the simple function x* exp(-x) for the interval
 //   x \in [0,infty). The exact result is 1. For Legendre based quadrature a
 //   tangent mapping is also used.
@@ -73,6 +74,8 @@ int main()
         cin >> N;
         cout << "Read in integration limits" << endl;
         cin >> a >> b;
+        cout << "Write the output file name" <<endl;
+        cin >> outfile;
         
         //reserve space in memory for vectors containing the mesh points
         //weights and function values for the use of the gauss-legendre
@@ -96,9 +99,21 @@ int main()
                                     *int_function(x[i],x[j],x[k],x[l],x[m],x[n]);
                     }}}}}
             }
-        cout << int_gauss << endl;
+        
+        ofile.open(outfile);
+        ofile << setiosflags(ios::showpoint | ios::uppercase);
+        ofile << "number of points:" << endl;
+        ofile << N << endl;
+        ofile << "integration limits:" << endl;
+        ofile << a << "  " << b <<endl;
+        ofile << "integral result:" <<endl;
+        ofile << int_gauss << endl;
+        
+        
+        delete [] x;
+        delete [] w;
     }
-    
+
     return 0;
 }  // end of main program
 
