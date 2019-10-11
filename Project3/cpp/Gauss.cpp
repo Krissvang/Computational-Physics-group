@@ -160,7 +160,6 @@ int main()
         
         
         
-        
         ofile.open(outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
         ofile << "IMPROVED GAUSS-QUADRATURE:" << endl;
@@ -200,7 +199,7 @@ double int_improved_function(double r1, double theta1, double phi1, double r2, d
     beta=cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2)*cos(phi1-phi2);
     double deno=sqrt(pow(r1,2)+pow(r2,2)-2*r1*r2*beta);
     if(deno<1e-10) return 0;
-    else return exp(-3*(r1+r2))/deno;
+    else return sin(theta1)*sin(theta2)*exp(-3*(r1+r2))/deno;
 } // end of function to evaluate
 
 
