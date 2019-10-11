@@ -162,7 +162,7 @@ int main()
                     for (int l = 1;l<N+1;l++){
                         for (int m = 0;m<N;m++){
                             for (int n = 0;n<N;n++){
-                                int_gausslag+=w_r[i]*w_theta[j]*w_phi[k]*w_r[l]*w_theta[m]*w_phi[n]*int_function(x_r[i],x_theta[j],x_phi[k],x_r[l],x_theta[m],x_phi[n]);
+                                int_gausslag+=w_r[i]*w_theta[j]*w_phi[k]*w_r[l]*w_theta[m]*w_phi[n]*int_improved_function(x_r[i],x_theta[j],x_phi[k],x_r[l],x_theta[m],x_phi[n]);
                     }}}}}
         }
         
@@ -205,8 +205,8 @@ double int_improved_function(double r1, double theta1, double phi1, double r2, d
     double beta;
     beta=cos(theta1)*cos(theta2)+sin(theta1)*sin(theta2)*cos(phi1-phi2);
     double deno=sqrt(pow(r1,2)+pow(r2,2)-2*r1*r2*beta);
-    if(deno<1e-10) return 0;
-    else return sin(theta1)*sin(theta2)/deno/1024;
+    if(deno<1e-4) return 0;
+    else return sin(theta1)*sin(theta2)/(1024.0*deno);
 } // end of function to evaluate
 
 
