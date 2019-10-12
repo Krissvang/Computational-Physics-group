@@ -18,6 +18,8 @@ int main(int argc, char const *argv[]) {
   cin >> R;
   double int_mc, std_dev, time;
   mc_bruteforce(&brute_force_MC,n,R,int_mc,std_dev,time);
+  //   final output
+  cout << "Standard deviation = "<< std_dev <<  " Integral = " << int_mc << " exact= " << 5*M_PI*M_PI/(16*16) << " Time = " << time << endl;
   return 0;
 }
 

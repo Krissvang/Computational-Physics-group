@@ -15,6 +15,9 @@ int main(int argc, char const *argv[]) {
   cin >> n;
   double int_mc, std_dev, time;
   mc_improved(&improved_MC,n,int_mc,std_dev,time);
+  //   final output
+  cout << "Standard deviation = "<< std_dev <<  " Integral = " << int_mc <<
+  " exact= " << 5*M_PI*M_PI/(16*16) << " Time = " << time << endl;
   return 0;
 }
 
