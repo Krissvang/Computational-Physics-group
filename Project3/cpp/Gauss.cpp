@@ -59,7 +59,7 @@ int main()
             f[i]=one_electron_function(x[i]);
         }
     
-        ofile.open(outfile);
+        ofile.open("Gauss_result/"+outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
         ofile << "number of points:" << endl;
         ofile << n << endl;
@@ -105,7 +105,7 @@ int main()
                     }}}}}
             }
         
-        ofile.open(outfile);
+        ofile.open("Gauss_result/"+outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
         ofile << "GAUSS-LEGENDRE QUADRATURE:" << endl;
         ofile << "number of points:" << endl;
@@ -166,7 +166,7 @@ int main()
                     }}}}}
         }
         
-        ofile.open(outfile);
+        ofile.open("Gauss_result/"+outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
         ofile << "IMPROVED GAUSS-QUADRATURE:" << endl;
         ofile << "number of points:" << endl;
