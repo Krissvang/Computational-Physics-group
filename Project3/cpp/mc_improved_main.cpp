@@ -1,5 +1,6 @@
 #include <cmath>
 #include <iostream>
+#include <iomanip>
 #include "lib.h"
 #include "montecarlo.h"
 #include <chrono>
@@ -13,13 +14,14 @@ int main(int argc, char const *argv[]) {
   int n;
   cout << "Read in the number of Monte-Carlo samples" << endl;
   cin >> n;
+  n=pow(10,n);
   double int_mc, std_dev, time, sum_sigma;
   time_point<system_clock> time2;
   time2 = system_clock::now();
   duration<double> duration_in_seconds =duration<double>(time2.time_since_epoch());
   long t2= duration_in_seconds.count();
   mc_improved(&improved_MC,n,int_mc,std_dev,time,sum_sigma,t2);
-  cout << "Standard deviation = "<< std_dev <<  " Integral = " << int_mc << " exact= " << 5*M_PI*M_PI/(16*16) << " Time = " << time << endl;
+  cout << "Standard deviation = "<< std_dev <<  " Integral = " << setprecision(10) << int_mc << " exact= " <<setprecision(10)<< 5*M_PI*M_PI/(16*16) << " Time = " << time << endl;
   return 0;
 }
 

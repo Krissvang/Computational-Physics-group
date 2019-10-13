@@ -1,6 +1,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <iomanip>
 #include "lib.h"
 #include <chrono>
 #include <mpi.h>
@@ -54,7 +55,7 @@ int main(int nargs, char* args[])
     end = high_resolution_clock::now();
     duration<double> elapsed = end-start;
     time = elapsed.count();
-    cout << "Standard deviation = "<< jacobi_det*sqrt(variance/n) <<  " Integral = " << jacobi_det*int_mc << " exact= " << 5*M_PI*M_PI/(16*16) << " Time = " << time << endl; 
+    cout << "Standard deviation = "<< jacobi_det*sqrt(variance/n) <<  " Integral = " << setprecision(10) << jacobi_det*int_mc << " exact= " << setprecision(10) << 5*M_PI*M_PI/(16*16) << " Time = " << time << endl; 
     }
     MPI_Finalize();
     return 0;
