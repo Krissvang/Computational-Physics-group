@@ -35,8 +35,6 @@ void mc_bruteforce(double (*func) (double *), int n, double R, double& int_mc, d
   time = elapsed.count();
   int_mc *= jacobi_det;
   std_dev = jacobi_det*sqrt(variance/n);
-//   final output
-  cout << "Standard deviation=" << std_dev <<" Integral= " << int_mc <<" Exact= " << 5*M_PI*M_PI/(16*16) << " Time = "<< time << endl;
 }
 
 void mc_improved(double (*func) (double *), int n, double& int_mc, double& std_dev, double& time, double& sum_sigma, long t2){

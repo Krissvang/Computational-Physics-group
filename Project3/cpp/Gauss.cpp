@@ -1,8 +1,6 @@
 //   This is a simple program which tests Gaussian quadrature using Legendre and Laguerre polynomials
-//  MODIFY THIS
-//   It integrates the simple function x* exp(-x) for the interval
-//   x \in [0,infty). The exact result is 1. For Legendre based quadrature a
-//   tangent mapping is also used.
+//   It integrates the two electrons function function for the interval
+//   x \in [0,infty). The exact result is 5(pi)^2/16^2.
 
 #include <iostream>
 #include <fstream>
@@ -37,9 +35,11 @@ int main()
     double a, b;
     int selection;
     
+    // Selection of the algorithm
     cout << "Insert 0 if you want to evaluate the one electron function. insert 1 if you want to solve the integral with the Gauss-Legendre algorithm. Write 2 if you want to use the Improved Gauss-Quadrature." << endl;
     cin >> selection;
     
+    // Here we calculate the data to plot the one electron function
     if(selection==0){
         cout << "Read in the number of points" << endl;
         cin >> n;
@@ -49,17 +49,18 @@ int main()
         cin >> outfile;
         double *x = new double [n];
         double *f = new double [n];
+        // Definiton of the distance between the points in the domain
         double h=(b-a)/n;
-    
+        // Here we build the x vector
         for (int i=0; i<n; i++){
             x[i]=a+i*h;
         }
-
+        // Here we build the f(x) vector
         for(int i=0; i<n; i++){
             f[i]=one_electron_function(x[i]);
         }
-    
-        ofile.open(outfile);
+        // Here we print the data
+        ofile.open("Gauss_result/"+outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
         ofile << "number of points:" << endl;
         ofile << n << endl;
@@ -68,11 +69,12 @@ int main()
             ofile << setw(19) << setprecision(8) << x[i];
             ofile << setw(19) << setprecision(8) << f[i] <<endl;
         }
-        
+        // Here we deallocate the vectors
         delete [] x;
         delete [] f;
-    }
+    }// End of the program section that print the data for the one electron function
     
+    // Here we evaluate the integral for the two electron function with the Gauss_Legendre method
     if(selection==1){
         int N;
         cout << "Read in the number of integration points" << endl;
@@ -104,8 +106,8 @@ int main()
                                     *int_function(x[i],x[j],x[k],x[l],x[m],x[n]);
                     }}}}}
             }
-        
-        ofile.open(outfile);
+        // Here we print the result of the integral
+        ofile.open("Gauss_result/"+outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
         ofile << "GAUSS-LEGENDRE QUADRATURE:" << endl;
         ofile << "number of points:" << endl;
@@ -115,11 +117,13 @@ int main()
         ofile << "integral result:" <<endl;
         ofile << int_gauss << endl;
         
-        
+        // Here we deallocate the vectors
         delete [] x;
         delete [] w;
-    }
+    }// End of the program section that solves the integral with the Gauss_Legendre method
     
+    // Here we evaluate the integral for the two electron function with the Improved method
+    // For the radial part of the integral we use the Gauss-Laguerre quadrature
     if(selection==2){
         int N;
         cout << "Read in the number of integration points" << endl;
@@ -139,6 +143,7 @@ int main()
         double *w_phi = new double [N];
         double *w_r = new double [N+1];
         
+        //Definition of the integration limits for the angular part
         double a_theta = 0;
         double b_theta = 3.14159265359;
         double a_phi = 0;
@@ -166,7 +171,8 @@ int main()
                     }}}}}
         }
         
-        ofile.open(outfile);
+        // Here we print the result of the integral
+        ofile.open("Gauss_result/"+outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
         ofile << "IMPROVED GAUSS-QUADRATURE:" << endl;
         ofile << "number of points:" << endl;
@@ -174,7 +180,7 @@ int main()
         ofile << "integral result:" <<endl;
         ofile << int_gausslag << endl;
         
-        
+        // Here we deallocate the vectors
         delete [] x_theta;
         delete [] x_phi;
         delete [] x_r;
@@ -182,7 +188,7 @@ int main()
         delete [] w_phi;
         delete [] w_r;
         
-    }
+    }// End of the improved method
 
     return 0;
 }  // end of main program

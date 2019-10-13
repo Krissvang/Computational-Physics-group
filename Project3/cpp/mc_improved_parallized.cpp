@@ -6,7 +6,6 @@
 #include <mpi.h>
 #include <time.h>
 #include "montecarlo.h"
-
 using namespace std;
 using namespace std::chrono;
 
@@ -62,11 +61,8 @@ int main(int nargs, char* args[])
 }  // end of main program
 
 // this function defines the integrand to integrate
-
 double  improved_MC(double *x)
 {
-   double alpha = 2.;
-// evaluate the different terms of the exponential
    double cosb = cos(x[2])*cos(x[3])+sin(x[2])*sin(x[3])*cos(x[4]-x[5]);
    double deno = sqrt(x[0]*x[0]+x[1]*x[1]-2*x[0]*x[1]*cosb);
    double value = x[0]*x[0]*x[1]*x[1]*sin(x[2])*sin(x[3])/deno;
