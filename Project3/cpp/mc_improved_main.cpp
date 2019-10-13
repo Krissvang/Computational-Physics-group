@@ -13,8 +13,13 @@ int main(int argc, char const *argv[]) {
   int n;
   cout << "Read in the number of Monte-Carlo samples" << endl;
   cin >> n;
-  double int_mc, std_dev, time;
-  mc_improved(&improved_MC,n,int_mc,std_dev,time);
+  double int_mc, std_dev, time, sum_sigma;
+  time_point<system_clock> time2;
+  time2 = system_clock::now();
+  duration<double> duration_in_seconds =duration<double>(time2.time_since_epoch());
+  long t2= duration_in_seconds.count();
+  mc_improved(&improved_MC,n,int_mc,std_dev,time,sum_sigma,t2);
+  cout << "Standard deviation = "<< std_dev <<  " Integral = " << int_mc << " exact= " << 5*M_PI*M_PI/(16*16) << " Time = " << time << endl;
   return 0;
 }
 
