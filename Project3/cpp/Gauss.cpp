@@ -9,6 +9,7 @@
 #include <string>
 #include <stdlib.h>
 #include <stdio.h>
+#include "lib.h"
 #define EPS 3.0e-14
 #define MAXIT 10
 #define   ZERO       1.0E-10
@@ -34,11 +35,11 @@ int main()
     int n;
     double a, b;
     int selection;
-    
+
     // Selection of the algorithm
     cout << "Insert 0 if you want to evaluate the one electron function. insert 1 if you want to solve the integral with the Gauss-Legendre algorithm. Write 2 if you want to use the Improved Gauss-Quadrature." << endl;
     cin >> selection;
-    
+
     // Here we calculate the data to plot the one electron function
     if(selection==0){
         cout << "Read in the number of points" << endl;
@@ -73,7 +74,7 @@ int main()
         delete [] x;
         delete [] f;
     }// End of the program section that print the data for the one electron function
-    
+
     // Here we evaluate the integral for the two electron function with the Gauss_Legendre method
     if(selection==1){
         int N;
@@ -83,7 +84,7 @@ int main()
         cin >> a >> b;
         cout << "Write the output file name" <<endl;
         cin >> outfile;
-        
+
         //reserve space in memory for vectors containing the mesh points
         //weights and function values for the use of the gauss-legendre
         //method
@@ -116,12 +117,12 @@ int main()
         ofile << a << "  " << b <<endl;
         ofile << "integral result:" <<endl;
         ofile << int_gauss << endl;
-        
+
         // Here we deallocate the vectors
         delete [] x;
         delete [] w;
     }// End of the program section that solves the integral with the Gauss_Legendre method
-    
+
     // Here we evaluate the integral for the two electron function with the Improved method
     // For the radial part of the integral we use the Gauss-Laguerre quadrature
     if(selection==2){
@@ -130,7 +131,7 @@ int main()
         cin >> N;
         cout << "Write the output file name" <<endl;
         cin >> outfile;
-        
+
         //reserve space in memory for vectors containing the mesh points
         //weights and function values for the use of the gauss-laguerre
         //method
@@ -142,21 +143,21 @@ int main()
         double *w_theta = new double [N];
         double *w_phi = new double [N];
         double *w_r = new double [N+1];
-        
+
         //Definition of the integration limits for the angular part
         double a_theta = 0;
         double b_theta = 3.14159265359;
         double a_phi = 0;
         double b_phi = 2*3.14159265359;
-        
+
         //set up the mesh points and weights for the angular part
         gauleg(a_theta,b_theta,x_theta,w_theta, N);
         gauleg(a_phi,b_phi,x_phi,w_phi, N);
-        
+
         //   set up the mesh points and weights and the power of x^alf
         double alf = 2.0;
         gauss_laguerre(x_r,w_r, N, alf);
-        
+
         //   evaluate the integral with the Gauss-Laguerre method
         //   Note that we initialize the sum
         double int_gausslag = 0.;
@@ -170,7 +171,7 @@ int main()
                                 int_gausslag+=w_r[i]*w_theta[j]*w_phi[k]*w_r[l]*w_theta[m]*w_phi[n]*int_improved_function(x_r[i],x_theta[j],x_phi[k],x_r[l],x_theta[m],x_phi[n]);
                     }}}}}
         }
-        
+
         // Here we print the result of the integral
         ofile.open("Gauss_result/"+outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
@@ -179,7 +180,7 @@ int main()
         ofile << N << endl;
         ofile << "integral result:" <<endl;
         ofile << int_gausslag << endl;
-        
+
         // Here we deallocate the vectors
         delete [] x_theta;
         delete [] x_phi;
@@ -187,7 +188,7 @@ int main()
         delete [] w_theta;
         delete [] w_phi;
         delete [] w_r;
-        
+
     }// End of the improved method
 
     return 0;
@@ -222,77 +223,6 @@ double one_electron_function(double x)
     double value = exp(-2*x);
     return value;
 } // end of function to evaluate
-
-
-       /*
-       ** The function
-       **              gauleg()
-       ** takes the lower and upper limits of integration x1, x2, calculates
-       ** and return the abcissas in x[0,...,n - 1] and the weights in w[0,...,n - 1]
-       ** of length n of the Gauss--Legendre n--point quadrature formulae.
-       */
-
-void gauleg(double x1, double x2, double x[], double w[], int n)
-{
-   int         m,j,i;
-   double      z1,z,xm,xl,pp,p3,p2,p1;
-   double      const  pi = 3.14159265359;
-   double      *x_low, *x_high, *w_low, *w_high;
-
-   m  = (n + 1)/2;                             // roots are symmetric in the interval
-   xm = 0.5 * (x2 + x1);
-   xl = 0.5 * (x2 - x1);
-
-   x_low  = x;                                       // pointer initialization
-   x_high = x + n - 1;
-   w_low  = w;
-   w_high = w + n - 1;
-
-   for(i = 1; i <= m; i++) {                             // loops over desired roots
-      z = cos(pi * (i - 0.25)/(n + 0.5));
-
-           /*
-       ** Starting with the above approximation to the ith root
-           ** we enter the mani loop of refinement bt Newtons method.
-           */
-
-      do {
-         p1 =1.0;
-     p2 =0.0;
-
-          /*
-       ** loop up recurrence relation to get the
-           ** Legendre polynomial evaluated at x
-           */
-
-     for(j = 1; j <= n; j++) {
-        p3 = p2;
-        p2 = p1;
-        p1 = ((2.0 * j - 1.0) * z * p2 - (j - 1.0) * p3)/j;
-     }
-
-       /*
-       ** p1 is now the desired Legrendre polynomial. Next compute
-           ** ppp its derivative by standard relation involving also p2,
-           ** polynomial of one lower order.
-           */
- 
-     pp = n * (z * p1 - p2)/(z * z - 1.0);
-     z1 = z;
-     z  = z1 - p1/pp;                   // Newton's method
-      } while(fabs(z - z1) > ZERO);
-
-          /*
-      ** Scale the root to the desired interval and put in its symmetric
-          ** counterpart. Compute the weight and its symmetric counterpart
-          */
-
-      *(x_low++)  = xm - xl * z;
-      *(x_high--) = xm + xl * z;
-      *w_low      = 2.0 * xl/((1.0 - z * z) * pp * pp);
-      *(w_high--) = *(w_low++);
-   }
-} // End_ function gauleg()
 
 
 //  Note that you need to call it with a given value of alpha,

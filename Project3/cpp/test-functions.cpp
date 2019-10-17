@@ -74,6 +74,21 @@ TEST_CASE("Testing Gauss-Laguerre"){
   delete [] w_r;
 }
 
+TEST_CASE("Testing Gauss-Legendre weights"){
+  int N = 2;
+  double a = -1; double b = 1;
+  double *x = new double [N];
+  double *w = new double [N];
+  gauleg(a,b,x,w,N);
+  REQUIRE(x[0] == Approx(-1./sqrt(3)));
+  REQUIRE(x[1] == Approx(1./sqrt(3)));
+  REQUIRE(w[0] == Approx(1));
+  REQUIRE(w[1] == Approx(1));
+
+  delete [] x;
+  delete [] w;
+}
+
 double testfunc_MC(double *x){
   return x[0]*x[0]*x[1]*x[1]*sin(x[2])*sin(x[3]);
 }
