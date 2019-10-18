@@ -7,8 +7,8 @@
 using namespace std;
 using namespace std::chrono;
 
-void mc_bruteforce(double(*)(double *),int,double,double&,double&,double&);
+void mc_bruteforce(double(*)(double *),int,double,double&,double&,double&,long);
 
-void mc_improved(double(*)(double *),int,double&,double&,double&);
+void mc_improved(double(*)(double *),int,double&,double&,double&,double&,long);
 
 #endif /* MONTECARLO_H */
