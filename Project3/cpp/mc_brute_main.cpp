@@ -1,7 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>
-#include "lib.h"
+#include <random>
 #include "montecarlo.h"
 #include <chrono>
 

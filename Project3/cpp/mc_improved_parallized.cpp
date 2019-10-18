@@ -2,10 +2,9 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>
-#include "lib.h"
 #include <chrono>
 #include <mpi.h>
-#include <time.h>
+#include <random>
 #include "montecarlo.h"
 using namespace std;
 using namespace std::chrono;
@@ -18,12 +17,21 @@ int main(int nargs, char* args[])
     time_point<high_resolution_clock> start, end;
     start = high_resolution_clock::now();
 
-    int n=pow(10,atoi(args[1]));
     int numprocs, my_rank, i;
     //Starts the parallizing
     MPI_Init (&nargs, &args);
     MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank (MPI_COMM_WORLD, &my_rank);
+    int n;
+    if(nargs < 2){
+      if(my_rank == 0){
+        cout << "Please read in number of samples on the same line" << endl;
+      }
+      exit(1);
+    }
+    else{
+      n = pow(10.0,atoi(args[1]));
+    }
     time_point<system_clock> time2;
     time2 = system_clock::now();
     duration<double> duration_in_seconds =duration<double>(time2.time_since_epoch());
