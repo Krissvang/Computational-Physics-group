@@ -16,6 +16,7 @@ void mc_bruteforce(double (*func) (double *), int n, double R, double& int_mc, d
   double jacobi_det=pow((2*R),6);
   random_device rd;
   mt19937_64 gen(rd());
+  gen.seed(t2);
   uniform_real_distribution<double> RandomNumberGenerator(0.0,1.0);
   for ( int i = 1;  i <= n; i++){
 //   x[] contains the random numbers for all dimensions
@@ -46,6 +47,7 @@ void mc_improved(double (*func) (double *), int n, double& int_mc, double& std_d
   double jacobi_det = 4*pow(acos(-1.),4.)*1/16;
   random_device rd;
   mt19937_64 gen(rd());
+  gen.seed(t2);
   uniform_real_distribution<double> RandomNumberGenerator(0.0,1.0);
 //   evaluate the integral with importance sampling
   for ( int i = 1;  i <= n; i++){
