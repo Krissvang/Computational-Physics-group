@@ -2,7 +2,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include "lib.h"
+#include <random>
 #include "montecarlo.h"
 #include <string>
 #include <chrono>
@@ -36,10 +36,10 @@ int main(int argc, char const *argv[]) {
   {
     mc_bruteforce(&brute_force_MC,n,R,int_mc,std_dev,time,t2+i);
     // final output
-    ofile << setw(20)<< std_dev <<  setw(20)<<setprecision(10) << int_mc <<setprecision(10)<< time << endl;
+    ofile << setw(20)<< std_dev <<  setw(20)<<setprecision(10) << int_mc << setw(20) <<setprecision(10)<< time << endl;
   }
-  
-  
+
+
   ofile.close();
   return 0;
 }

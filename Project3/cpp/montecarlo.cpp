@@ -14,6 +14,7 @@ void mc_bruteforce(double (*func) (double *), int n, double R, double& int_mc, d
   int_mc = 0.;  double variance = 0.;
   double sum_sigma= 0. ; long idum=t2 ;
   double jacobi_det=pow((2*R),6);
+  //Initialize random number generator using mt19937
   random_device rd;
   mt19937_64 gen(rd());
   gen.seed(t2);
@@ -45,6 +46,7 @@ void mc_improved(double (*func) (double *), int n, double& int_mc, double& std_d
   int_mc = 0.;  double variance = 0.;
   sum_sigma= 0. ; long idum=t2;
   double jacobi_det = 4*pow(acos(-1.),4.)*1/16;
+  //Initialize random number generator using mt19937
   random_device rd;
   mt19937_64 gen(rd());
   gen.seed(t2);
