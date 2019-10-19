@@ -12,7 +12,7 @@ void mc_bruteforce(double (*func) (double *), int n, double R, double& int_mc, d
 
   start = high_resolution_clock::now();
   int_mc = 0.;  double variance = 0.;
-  double sum_sigma= 0. ; long idum=t2 ;
+  double sum_f2= 0. ; long idum=t2 ;
   double jacobi_det=pow((2*R),6);
   //Initialize random number generator using mt19937
   random_device rd;
@@ -26,11 +26,11 @@ void mc_bruteforce(double (*func) (double *), int n, double R, double& int_mc, d
     }
     fx=func(x);
     int_mc += fx;
-    sum_sigma += fx*fx;
+    sum_f2 += fx*fx;
   }
   int_mc = int_mc/((double) n );
-  sum_sigma = sum_sigma/((double) n );
-  variance=sum_sigma-int_mc*int_mc;
+  sum_f2 = sum_f2/((double) n );
+  variance=sum_f2-int_mc*int_mc;
   end = high_resolution_clock::now();
   duration<double> elapsed = end-start;
   time = elapsed.count();
@@ -38,13 +38,13 @@ void mc_bruteforce(double (*func) (double *), int n, double R, double& int_mc, d
   std_dev = jacobi_det*sqrt(variance/n);
 }
 
-void mc_improved(double (*func) (double *), int n, double& int_mc, double& std_dev, double& time, double& sum_sigma, long t2){
+void mc_improved(double (*func) (double *), int n, double& int_mc, double& std_dev, double& time, double& sum_f2, long t2){
   double x[6], y1, y2, r, fx; //x = [r1,r2,theta1,theta2,phi1,phi2]
   time_point<high_resolution_clock> start, end;
 
   start = high_resolution_clock::now();
   int_mc = 0.;  double variance = 0.;
-  sum_sigma= 0. ; long idum=t2;
+  sum_f2= 0. ; long idum=t2;
   double jacobi_det = 4*pow(acos(-1.),4.)*1/16;
   //Initialize random number generator using mt19937
   random_device rd;
@@ -67,11 +67,11 @@ void mc_improved(double (*func) (double *), int n, double& int_mc, double& std_d
     }
     fx=func(x);
     int_mc += fx;
-    sum_sigma += fx*fx;
+    sum_f2 += fx*fx;
   }
   int_mc = int_mc/((double) n );
-  sum_sigma = sum_sigma/((double) n );
-  variance=sum_sigma-int_mc*int_mc;
+  sum_f2 = sum_f2/((double) n );
+  variance=sum_f2-int_mc*int_mc;
   end = high_resolution_clock::now();
   duration<double> elapsed = end-start;
   time = elapsed.count();

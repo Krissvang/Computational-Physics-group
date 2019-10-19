@@ -41,23 +41,23 @@ int main(int nargs, char* args[])
     //Needed loocal and global variables
     int local_n=n/numprocs;
     double int_mc = 0.;  double variance = 0.;
-    double local_int_mc=0.; double local_variance=0.;
-    double sum_sigma= 0.;
-    double local_sum_sigma=0.;
+    double local_int_mc=0.;
+    double sum_f2= 0.;
+    double local_sum_f2=0.;
     double jacobi_det = 4*pow(acos(-1.),4.)*1/16;
     double time=0.; double local_std_dev;
     //runs the algorithm
-    mc_improved(&improved_MC,local_n,local_int_mc,local_std_dev,time,local_sum_sigma,t2);
+    mc_improved(&improved_MC,local_n,local_int_mc,local_std_dev,time,local_sum_f2,t2);
     //Fixes the dimentions
     local_int_mc*=local_n;
-    local_sum_sigma*=local_n;
+    local_sum_f2*=local_n;
     //Sums the computed mean values together
     MPI_Reduce(&local_int_mc, &int_mc, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    MPI_Reduce(&local_sum_sigma, &sum_sigma, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&local_sum_f2, &sum_f2, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     //Fixes the dimentions
-    int_mc*=1./n/jacobi_det;
-    sum_sigma*=1./n;
-    variance = sum_sigma-int_mc*int_mc;
+    int_mc*=1./n/jacobi_det;    //=<f> for all processes
+    sum_f2*=1./n;               //=<f^2> for all processes
+    variance = sum_f2-int_mc*int_mc;
 
     //   final output
     if( my_rank==0){
