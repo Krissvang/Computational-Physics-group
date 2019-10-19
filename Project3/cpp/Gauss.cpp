@@ -10,11 +10,13 @@
 #include <string>
 #include <stdlib.h>
 #include <stdio.h>
+#include <chrono>
 #include "lib.h"
 #define EPS 3.0e-14
 #define MAXIT 10
 #define   ZERO       1.0E-10
 using namespace std;
+using namespace std::chrono;
 
 //     Here we define various functions called by the main program
 
@@ -79,6 +81,7 @@ int main()
     // Here we evaluate the integral for the two electron function with the Gauss_Legendre method
     if(selection==1){
         int N;
+        time_point<high_resolution_clock> start, end;
         cout << "Read in the number of integration points" << endl;
         cin >> N;
         cout << "Read in integration limits" << endl;
@@ -91,6 +94,7 @@ int main()
         //method
         double *x = new double [N];
         double *w = new double [N];
+        start = high_resolution_clock::now();
         //set up the mesh points and weights
         gauleg(a,b,x,w, N);
 
@@ -108,6 +112,9 @@ int main()
                                     *int_function(x[i],x[j],x[k],x[l],x[m],x[n]);
                     }}}}}
             }
+        end = high_resolution_clock::now();
+        duration<double> elapsed = end-start;
+        double time = elapsed.count();
         // Here we print the result of the integral
         ofile.open("Gauss_result/"+outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
@@ -118,6 +125,8 @@ int main()
         ofile << a << "  " << b <<endl;
         ofile << "integral result:" <<endl;
         ofile << int_gauss << endl;
+        ofile << "time:" << endl;
+        ofile << time << endl;
 
         // Here we deallocate the vectors
         delete [] x;
@@ -128,6 +137,7 @@ int main()
     // For the radial part of the integral we use the Gauss-Laguerre quadrature
     if(selection==2){
         int N;
+        time_point<high_resolution_clock> start, end;
         cout << "Read in the number of integration points" << endl;
         cin >> N;
         cout << "Write the output file name" <<endl;
@@ -145,6 +155,7 @@ int main()
         double *w_phi = new double [N];
         double *w_r = new double [N+1];
 
+        start = high_resolution_clock::now();
         //Definition of the integration limits for the angular part
         double a_theta = 0;
         double b_theta = 3.14159265359;
@@ -173,6 +184,9 @@ int main()
                     }}}}}
         }
 
+        end = high_resolution_clock::now();
+        duration<double> elapsed = end-start;
+        double time = elapsed.count();
         // Here we print the result of the integral
         ofile.open("Gauss_result/"+outfile);
         ofile << setiosflags(ios::showpoint | ios::uppercase);
@@ -181,6 +195,8 @@ int main()
         ofile << N << endl;
         ofile << "integral result:" <<endl;
         ofile << int_gausslag << endl;
+        ofile << "time:" << endl;
+        ofile << time << endl;
 
         // Here we deallocate the vectors
         delete [] x_theta;
@@ -269,7 +285,7 @@ void gauleg(double x1, double x2, double x[], double w[], int n)
            ** ppp its derivative by standard relation involving also p2,
            ** polynomial of one lower order.
            */
- 
+
      pp = n * (z * p1 - p2)/(z * z - 1.0);
      z1 = z;
      z  = z1 - p1/pp;                   // Newton's method

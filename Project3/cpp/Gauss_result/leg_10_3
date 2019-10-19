@@ -1,0 +1,9 @@
+GAUSS-LEGENDRE QUADRATURE:
+number of points:
+10
+integration limits:
+-3.00000  3.00000
+integral result:
+0.0719797
+time:
+0.0212262

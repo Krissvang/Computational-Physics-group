@@ -19,12 +19,12 @@ double gammln(double);
 
 TEST_CASE("Testing improved MC"){
     int n=pow(10,8);
-    double int_mc, std_dev, time, sum_sigma;
+    double int_mc, std_dev, time, sum_f2;
     time_point<system_clock> time2;
     time2 = system_clock::now();
     duration<double> duration_in_seconds =duration<double>(time2.time_since_epoch());
     long t2= duration_in_seconds.count();
-    mc_improved(&testfunc_MC,n,int_mc,std_dev,time,sum_sigma,t2);
+    mc_improved(&testfunc_MC,n,int_mc,std_dev,time,sum_f2,t2);
     REQUIRE(int_mc==Approx(acos(-1)*acos(-1)/pow(2,6)).epsilon(5*std_dev));
 }
 
