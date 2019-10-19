@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 x = np.arange(4,10)
-y = np.log10(np.array([0.009,0.004,0.0011,0.0003,0.0001,0.00005]))
+y = np.log10(np.array([0.00943,0.00359,0.00106,0.00033,0.00011,0.00003]))
 
 plt.figure()
 plt.plot(x,y,"x",label=r"$\sigma_N$")
