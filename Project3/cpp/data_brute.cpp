@@ -15,7 +15,7 @@ double brute_force_MC(double *);
 int main(int argc, char const *argv[]) {
   ofstream ofile;
   int n;
-  string filename = "brute_data_";
+  string filename = "mc_results/brute_data_";
   double R;
   cout << "Read in the number of Monte-Carlo samples" << endl;
   cin >> n;

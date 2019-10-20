@@ -15,7 +15,7 @@ double  improved_MC(double *x);
 int main(int argc, char const *argv[]) {
   ofstream ofile;
   int n;
-  string filename = "improved_data_";
+  string filename = "mc_results/improved_data_";
   double R;
   cout << "Read in the number of Monte-Carlo samples" << endl;
   cin >> n;
@@ -36,8 +36,8 @@ int main(int argc, char const *argv[]) {
     // final output
     ofile << setprecision(10)<< std_dev <<  setw(30) << setprecision(20) << int_mc << setprecision(10) << setw(20)<< time << endl;
   }
-  
-  
+
+
   ofile.close();
   return 0;
 }
