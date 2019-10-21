@@ -13,7 +13,7 @@ double brute_force_MC(double *);
 int main(int argc, char const *argv[]) {
   int n;
   double R;
-  cout << "Read in the number of Monte-Carlo samples" << endl;
+  cout << "Read in the number of Monte-Carlo samples as 10^(input)" << endl;
   cin >> n;
   n=pow(10,n);
   cout << "Read in R (max. absolute value of x_i)" << endl;

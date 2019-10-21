@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]) {
   int n;
   string filename = "mc_results/brute_data_";
   double R;
-  cout << "Read in the number of Monte-Carlo samples" << endl;
+  cout << "Read in the number of Monte-Carlo samples as 10^(input)" << endl;
   cin >> n;
   filename.append(to_string(n)+".txt");
   ofile.open(filename);

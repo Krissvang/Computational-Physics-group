@@ -12,7 +12,7 @@ double improved_MC(double *);
 
 int main(int argc, char const *argv[]) {
   int n;
-  cout << "Read in the number of Monte-Carlo samples" << endl;
+  cout << "Read in the number of Monte-Carlo samples as 10^(input)" << endl;
   cin >> n;
   n=pow(10,n);
   double int_mc, std_dev, time, sum_sigma;
