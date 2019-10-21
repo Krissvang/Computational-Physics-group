@@ -48,13 +48,13 @@ int main(int nargs, char* args[])
     double time=0.; double local_std_dev;
     //runs the algorithm
     mc_improved(&improved_MC,local_n,local_int_mc,local_std_dev,time,local_sum_f2,t2);
-    //Fixes the dimentions
+    //Recover local sums of f and f^2
     local_int_mc*=local_n;
     local_sum_f2*=local_n;
-    //Sums the computed mean values together
+    //Sums the computed local sums together
     MPI_Reduce(&local_int_mc, &int_mc, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     MPI_Reduce(&local_sum_f2, &sum_f2, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-    //Fixes the dimentions
+    //Find global mean of f and f^2
     int_mc*=1./n/jacobi_det;    //=<f> for all processes
     sum_f2*=1./n;               //=<f^2> for all processes
     variance = sum_f2-int_mc*int_mc;
