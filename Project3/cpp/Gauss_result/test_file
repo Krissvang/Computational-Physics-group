@@ -1,5 +1,7 @@
 IMPROVED GAUSS-QUADRATURE:
 number of points:
-30
+2
 integral result:
-0.192114
+0.121071
+time:
+0.00457230
