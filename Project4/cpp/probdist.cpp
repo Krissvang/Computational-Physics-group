@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
   }
 
   filename = "results/"+filename+".txt";
-  if(my_rank == 1){
+  if(my_rank == 0){
     ofile.open(filename);
     ofile << n_spins << "x" << n_spins << " spins, " << mcs <<
     " Monte Carlo cycles, temperature = " << T << ", " << numprocs <<
