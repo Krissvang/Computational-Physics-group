@@ -3,8 +3,6 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-#Run the c++ file most_likely_state.cpp and call the file most_likely_state_T=#temperature
-#Look at the reults folder for examples.
 
 def plot_mcs_vs_energy(temperature):
   mcs, energy, heatcap, mag, absmag, sucept, time = np.loadtxt("results/most_likely_state_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
@@ -24,7 +22,7 @@ def plot_mcs_vs_mag(temperature):
   plt.savefig("results/mcs_vs_magnetization_T=%s.png"%(temperature))
   plt.close()
 
-#As argument choose the temperature
-#plot_mcs_vs_mag("1")
-#plot_mcs_vs_energy("1")
+
+plot_mcs_vs_mag("1")
+plot_mcs_vs_energy("1")
 
