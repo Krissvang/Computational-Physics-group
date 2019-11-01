@@ -9,7 +9,7 @@ using namespace std::chrono;
 
 ofstream ofile;
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
   int n_spins, mcs;
   double T_low, T_high, dT;
   string filename, init;
