@@ -1,3 +1,4 @@
+#include <omp.h>
 #include <cmath>
 #include <iostream>
 #include <fstream>
