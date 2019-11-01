@@ -1,2 +1,0 @@
-20x20 spins, 1000000 Monte Carlo cycles, temperature = 1, 2 processes, started collecting data after 10000 cycles., random initial state
-Energy per spin:     Count:
