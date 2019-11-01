@@ -23,3 +23,7 @@ TEST_CASE("Testing the ising model"){
     REQUIRE(M_avg == Approx(0.0).epsilon(0.4));
 }
 
+TEST_CASE("Testing the metropolis algorithm"){
+    
+}
+
