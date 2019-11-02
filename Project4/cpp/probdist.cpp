@@ -48,11 +48,13 @@ int main(int argc, char *argv[]) {
   double E_avg, heatcap, M_avg, M_abs_avg, susc;
   double local_E_avg, local_heatcap, local_M_avg, local_M_abs_avg, local_susc;
   int local_mcs = mcs/numprocs;
+  int local_steady_start = steady_start/numprocs;
+  int count_configs = 0;
   vector<int> local_count(n_spins*n_spins+1);
   int count_i, local_count_i;
   double E_min = -2*n_spins*n_spins;
   ising(n_spins,local_mcs,T,init,local_E_avg,local_heatcap,
-    local_M_avg,local_M_abs_avg,local_susc, local_count, steady_start);
+    local_M_avg,local_M_abs_avg,local_susc, local_count, local_steady_start, count_configs);
   for(int i=0; i < local_count.size(); i++){
     local_count_i = local_count[i];
     MPI_Reduce(&local_count_i, &count_i, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);

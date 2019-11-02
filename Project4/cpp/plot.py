@@ -22,7 +22,17 @@ def plot_mcs_vs_mag(temperature):
   plt.savefig("results/mcs_vs_magnetization_T=%s.png"%(temperature))
   plt.close()
 
+def plot_mcs_vs_configs(temperature):
+  mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
+  plt.figure("Plot")
+  plt.plot(mcs,configs, '#E57375')
+  plt.xlabel("Number of Monte Carlo Cycles")
+  plt.ylabel("Accepted configurations")
+  plt.savefig("results/mcs_vs_configs_T=%s.png"%(temperature))
+  plt.close()
 
-plot_mcs_vs_mag("1")
-plot_mcs_vs_energy("1")
+
+#plot_mcs_vs_mag("1")
+#plot_mcs_vs_energy("1")
+plot_mcs_vs_configs("2,4")
 

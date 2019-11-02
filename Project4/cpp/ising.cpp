@@ -20,7 +20,7 @@ inline int periodic(int i, int limit, int add) {
 // Function to initialize energy and magnetization
 void initialize(int, string, double, arma::Mat<int>&, double&, double&, vector<int>&);
 // The metropolis algorithm
-void Metropolis(int, arma::Mat<int>&, double&, double&, double *);
+void Metropolis(int, arma::Mat<int>&, double&, double&, double *, int&);
 
 //Initialize random number generator using mt19937
 random_device rd;
@@ -32,7 +32,7 @@ uniform_real_distribution<double> RandomNumberGenerator(0.0,1.0);
 */
 void ising(int n_spins, int mcs, double temperature, string init, double& E_avg,
 double& heatcap, double& M_avg, double& M_abs_avg, double& susc,
-vector<int>& count, int steady_start)
+vector<int>& count, int steady_start, int& count_configs)
 {
   Mat<int> spin_matrix(n_spins,n_spins);
   double exp_de[17], E, M, E2_avg, M2_avg;
@@ -47,11 +47,11 @@ vector<int>& count, int steady_start)
   // start Monte Carlo computation
   // First reach equilibrium:
   for (int cycles = 1; cycles <= steady_start; cycles++){
-    Metropolis(n_spins, spin_matrix, E, M, exp_de);
+    Metropolis(n_spins, spin_matrix, E, M, exp_de, count_configs);
   }
   // Then collect data
   for (int cycles = steady_start+1; cycles <= mcs; cycles++){
-      Metropolis(n_spins, spin_matrix, E, M, exp_de);
+      Metropolis(n_spins, spin_matrix, E, M, exp_de,count_configs);
       // update expectation values
       E_avg += E; E2_avg += E*E; M_avg += M;
       M2_avg += M*M; M_abs_avg += fabs(M);
@@ -99,7 +99,7 @@ void initialize(int n_spins, string init, double temperature,
   }
 }// end function initialize
 
-void Metropolis(int n_spins, Mat<int>& spin_matrix, double& E, double&M, double *exp_de)
+void Metropolis(int n_spins, Mat<int>& spin_matrix, double& E, double&M, double *exp_de, int& count_configs)
 {
   // loop over all spins
   for(int i =0; i < n_spins; i++) {
@@ -115,6 +115,7 @@ void Metropolis(int n_spins, Mat<int>& spin_matrix, double& E, double&M, double 
 	spin_matrix(irand,jrand) *= -1;  // flip one spin and accept new spin config
         M += (double) 2*spin_matrix(irand,jrand);
         E += (double) deltaE;
+        count_configs+=1;
       }
     }
   }
