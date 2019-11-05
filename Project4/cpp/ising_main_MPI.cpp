@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
   }
   // read in various parameters from terminal:
   else{
-  n_spins=atoi(argv[1]); mcs=atoi(argv[2]); steady_start=atoi(argv[3]); T_low=atoi(argv[4]); T_high=atoi(argv[5]); dT=atoi(argv[6]); init=atoi(argv[7]); filename=atoi(argv[8]);
+  n_spins=atoi(argv[1]); mcs=atoi(argv[2]); steady_start=atoi(argv[3]); T_low=atof(argv[4]); T_high=atof(argv[5]); dT=atof(argv[6]); init=argv[7]; filename=argv[8];
   }
 
   filename = "results/"+filename+".txt";
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     MPI_Reduce(&local_M_abs_avg, &M_abs_avg, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
     MPI_Reduce(&local_susc, &susc, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-   
+
 
 
 
@@ -77,7 +77,6 @@ int main(int argc, char *argv[]) {
       M_avg/=numprocs;
       M_abs_avg/=numprocs;
       susc/=numprocs;
-      cout << temperature << endl;
       ofile << setprecision(2) << setw(11) << temperature;
       ofile << setprecision(8) << setw(16) << E_avg;
       ofile << setprecision(8) << setw(16) << heatcap;
