@@ -1,0 +1,2 @@
+80x80 spins, 10000000 Monte Carlo cycles, random initial state
+Temperature     Avg. energy   Heat capacity  Avg. magnetization   Avg. magnetization (abs. value)  Susceptibility            Time    
