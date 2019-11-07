@@ -32,7 +32,47 @@ def plot_mcs_vs_configs(temperature):
   plt.close()
 
 
+def plot_energy(L,DT,MC):
+  temp, energy, heatcap, mag, absmag, sucept, time = np.loadtxt("results/L=%s.txt"%(L), skiprows=2,unpack=True) 
+  plt.figure("Plot")
+  plt.plot(temp,energy,'ro')
+  plt.xlabel("Temperature")
+  plt.ylabel("Energy")
+  plt.savefig("results/energy_L=%s_dT=%s_mc=%s.png"%(L,DT,MC))
+  plt.close()
+
+def plot_heatcap(L,DT,MC):
+  temp, energy, heatcap, mag, absmag, sucept, time = np.loadtxt("results/L=%s.txt"%(L), skiprows=2,unpack=True) 
+  plt.figure("Plot")
+  plt.plot(temp,heatcap,'ro')
+  plt.xlabel("Temperature")
+  plt.ylabel("Heatcapacity")
+  plt.savefig("results/heatcap_L=%s_dT=%s_mc=%s.png"%(L,DT,MC))
+  plt.close()
+
+
+def plot_absmag(L,DT,MC):
+  temp, energy, heatcap, mag, absmag, sucept, time = np.loadtxt("results/L=%s.txt"%(L), skiprows=2,unpack=True) 
+  plt.figure("Plot")
+  plt.plot(temp,heatcap,'ro')
+  plt.xlabel("Temperature")
+  plt.ylabel("$\langle|M|\\rangle$")
+  plt.savefig("results/absmag_L=%s_dT=%s_mc=%s.png"%(L,DT,MC))
+  plt.close()
+
+def plot_sucept(L,DT,MC):
+  temp, energy, heatcap, mag, absmag, sucept, time = np.loadtxt("results/L=%s.txt"%(L), skiprows=2,unpack=True) 
+  plt.figure("Plot")
+  plt.plot(temp,sucept,'ro')
+  plt.xlabel("Temperature")
+  plt.ylabel("Heatcapacity ($\chi$)")
+  plt.savefig("results/sucept_L=%s_dT=%s_mc=%s.png"%(L,DT,MC))
+  plt.close()
+
 #plot_mcs_vs_mag("1")
 #plot_mcs_vs_energy("1")
-plot_mcs_vs_configs("2,4")
-
+#plot_mcs_vs_configs("")
+plot_energy(60,0.005,7)
+plot_heatcap(60,0.005,7)
+plot_absmag(60,0.005,7)
+plot_sucept(60,0.005,7)
