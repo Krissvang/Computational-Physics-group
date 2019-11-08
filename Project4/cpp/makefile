@@ -10,8 +10,8 @@ ${PROG} :	   	tests-main.o  test-functions.o ising.o
 tests-main.o :			tests-main.cpp
 		        	${CPPflags} -c tests-main.cpp
 
-test-functions.o :			test-functions.cpp
+test-functions.o :		test-functions.cpp
 		        	${CPPflags} -c test-functions.cpp
 
-ising.o :		ising.cpp
+ising.o :			ising.cpp
 		        	${CPPflags} -c ising.cpp
