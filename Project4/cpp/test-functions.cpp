@@ -1,9 +1,11 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 #include <iomanip>
 #include "catch.hpp"
-#include "ising.h"còe
+#include "ising.h"
+#include <armadillo>
 using namespace std;
 
 /*TEST_CASE("Testing the ising model"){
@@ -22,8 +24,8 @@ using namespace std;
 
 TEST_CASE("Testing the metropolis algorithm"){
     int n_spins=2; int count_configs = 0;
-    double T=0.00001;
-    Mat<int> spin_matrix(n_spins,n_spins);
+    double T=3000;
+    arma::Mat<int> spin_matrix(n_spins,n_spins);
     vector<int> count;
     double exp_de[17], E, M;
     E = M = 0.;
@@ -31,6 +33,6 @@ TEST_CASE("Testing the metropolis algorithm"){
     for( int de =-8; de <= 8; de+=4) exp_de[de+8] = exp(-de/T);
     initialize(n_spins, "a", T, spin_matrix, E, M, count);
     Metropolis(n_spins, spin_matrix, E, M, exp_de, count_configs);
-    REQUIRE(spin_matrix(0,0)+spin_matrix(1,0)*spin_matrix(0,1)+spin_matrix(1,1)=3);
+    REQUIRE(spin_matrix(0,0)+spin_matrix(1,0)+spin_matrix(0,1)+spin_matrix(1,1)>=0);
 }
 
