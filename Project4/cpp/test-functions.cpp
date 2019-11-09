@@ -8,6 +8,10 @@
 #include <armadillo>
 using namespace std;
 
+inline int periodic(int i, int limit, int add) {
+  return (i+limit+add) % (limit);
+}
+
 TEST_CASE("Testing the ising model"){
     int n_spins=2; int mcs=1000000; int steady_start=20;  int count_configs = 0;
     vector<int> count(n_spins * n_spins + 1);
@@ -22,19 +26,45 @@ TEST_CASE("Testing the ising model"){
     REQUIRE(M_avg+1 == Approx(1).epsilon(0.7));
 }
 
+TEST_CASE("Testing the initialize algorithm"){
+    int n_spins=2; int count_configs = 0;
+    double T=1;
+    arma::Mat<int> spin_matrix(n_spins,n_spins);
+    vector<int> count;
+    double exp_de[17], E, M, E_test;
+    E = M = 0.;
+    for( int de =-8; de <= 8; de++) exp_de[de+8] = 0;
+    for( int de =-8; de <= 8; de+=4) exp_de[de+8] = exp(-de/T);
+    initialize(n_spins, "a", T, spin_matrix, E, M, count);
+    int sum_elements=spin_matrix(0,0)+spin_matrix(1,0)+spin_matrix(0,1)+spin_matrix(1,1);
+    for(int i =0; i < n_spins; i++) {
+      for (int j= 0; j < n_spins; j++){
+        E_test -=  (double) spin_matrix(i,j)*
+      (spin_matrix(periodic(i,n_spins,-1),j) +
+       spin_matrix(i,periodic(j,n_spins,-1)));
+      }}
+    REQUIRE(sum_elements<=4);
+    REQUIRE(sum_elements>=-4);
+    REQUIRE(E_test==E);
+}
+
+
 TEST_CASE("Testing the metropolis algorithm"){
     int n_spins=2; int count_configs = 0;
-    double T=0.00001;
+    double T=1;
     arma::Mat<int> spin_matrix(n_spins,n_spins);
     vector<int> count;
     double exp_de[17], E, M;
     E = M = 0.;
     for( int de =-8; de <= 8; de++) exp_de[de+8] = 0;
     for( int de =-8; de <= 8; de+=4) exp_de[de+8] = exp(-de/T);
-    spin_matrix(0,0)=1; spin_matrix(0,1)=-1; spin_matrix(1,0)=-1; spin_matrix(1,1)=1;
+    initialize(n_spins, "r", T, spin_matrix, E, M, count);
     Metropolis(n_spins, spin_matrix, E, M, exp_de, count_configs);
     int sum_elements=spin_matrix(0,0)+spin_matrix(1,0)+spin_matrix(0,1)+spin_matrix(1,1);
-    if(sum_elements<=0)REQUIRE(sum_elements==-2);
-    else REQUIRE(sum_elements==2);
+    REQUIRE(count_configs>=0);
+    REQUIRE(count_configs<=4);
+    REQUIRE(sum_elements<=4);
+    REQUIRE(sum_elements>=-4);
+    
 }
 
