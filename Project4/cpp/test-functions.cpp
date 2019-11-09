@@ -16,7 +16,7 @@ TEST_CASE("Testing the ising model"){
     ising(n_spins,mcs,T,"r",E_avg,heatcap,M_avg,M_abs_avg,susc,count,steady_start,count_configs);
     double Z=12+2*exp(8/T)+2*exp(-8/T);
     REQUIRE(E_avg == Approx((16*exp(-8/T)-16*exp(8/T))/Z).epsilon(0.05));
-    REQUIRE(heatcap == Approx(1/(T*T)*(64*(1+3*cosh(8/T)))/(3+cosh(8/T))/(3+cosh(8/T))).epsilon(0.08));
+    REQUIRE(heatcap == Approx(1/(T*T)*(64*(1+3*cosh(8/T)))/(3+cosh(8/T))/(3+cosh(8/T))).epsilon(0.1));
     REQUIRE(susc == Approx(1/T*(32*exp(8/T)+32)/Z).epsilon(0.05));
     REQUIRE(M_abs_avg == Approx((8*exp(8/T)+16)/Z).epsilon(0.05));
     REQUIRE(M_avg+1 == Approx(1).epsilon(0.7));
@@ -31,8 +31,10 @@ TEST_CASE("Testing the metropolis algorithm"){
     E = M = 0.;
     for( int de =-8; de <= 8; de++) exp_de[de+8] = 0;
     for( int de =-8; de <= 8; de+=4) exp_de[de+8] = exp(-de/T);
-    spin_matrix(0,0)=1; spin_matrix(0,1)=0; spin_matrix(1,0)=0; spin_matrix(1,1)=1;
+    spin_matrix(0,0)=1; spin_matrix(0,1)=-1; spin_matrix(1,0)=-1; spin_matrix(1,1)=1;
     Metropolis(n_spins, spin_matrix, E, M, exp_de, count_configs);
-    REQUIRE(spin_matrix(0,0)+spin_matrix(1,0)+spin_matrix(0,1)+spin_matrix(1,1)<=2);
+    int sum_elements=spin_matrix(0,0)+spin_matrix(1,0)+spin_matrix(0,1)+spin_matrix(1,1);
+    if(sum_elements<=0)REQUIRE(sum_elements==-2);
+    else REQUIRE(sum_elements==2);
 }
 
