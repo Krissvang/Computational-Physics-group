@@ -8,7 +8,7 @@
 #include <armadillo>
 using namespace std;
 
-/*TEST_CASE("Testing the ising model"){
+TEST_CASE("Testing the ising model"){
     int n_spins=2; int mcs=1000000; int steady_start=20;  int count_configs = 0;
     vector<int> count(n_spins * n_spins + 1);
     double T=1.0;
@@ -20,19 +20,19 @@ using namespace std;
     REQUIRE(susc == Approx(1/T*(32*exp(8/T)+32)/Z).epsilon(0.05));
     REQUIRE(M_abs_avg == Approx((8*exp(8/T)+16)/Z).epsilon(0.05));
     REQUIRE(M_avg+1 == Approx(1).epsilon(0.7));
-}*/
+}
 
 TEST_CASE("Testing the metropolis algorithm"){
     int n_spins=2; int count_configs = 0;
-    double T=3000;
+    double T=0.00001;
     arma::Mat<int> spin_matrix(n_spins,n_spins);
     vector<int> count;
     double exp_de[17], E, M;
     E = M = 0.;
     for( int de =-8; de <= 8; de++) exp_de[de+8] = 0;
     for( int de =-8; de <= 8; de+=4) exp_de[de+8] = exp(-de/T);
-    initialize(n_spins, "a", T, spin_matrix, E, M, count);
+    spin_matrix(0,0)=1; spin_matrix(0,1)=0; spin_matrix(1,0)=0; spin_matrix(1,1)=1;
     Metropolis(n_spins, spin_matrix, E, M, exp_de, count_configs);
-    REQUIRE(spin_matrix(0,0)+spin_matrix(1,0)+spin_matrix(0,1)+spin_matrix(1,1)>=0);
+    REQUIRE(spin_matrix(0,0)+spin_matrix(1,0)+spin_matrix(0,1)+spin_matrix(1,1)<=2);
 }
 
