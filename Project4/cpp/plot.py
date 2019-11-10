@@ -5,30 +5,30 @@ import matplotlib.pyplot as plt
 
 
 def plot_mcs_vs_energy(temperature):
-  mcs, energy, heatcap, mag, absmag, sucept, time = np.loadtxt("results/most_likely_state_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
+  mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
   plt.figure("Plot")
-  plt.plot(mcs,energy,'#E57375')
+  plt.plot(mcs,energy/20**2,'#E57375')
   plt.xlabel("Number of Monte Carlo Cycles")
-  plt.ylabel("Average energy")
-  plt.savefig("results/mcs_vs_energy_T=%s.png"%(temperature))
+  plt.ylabel("Average energy per spin")
+  plt.savefig("results/mcs_vs_energy_T=%s.pdf"%(temperature))
   plt.close()
 
 def plot_mcs_vs_mag(temperature):
-  mcs, energy, heatcap, mag, absmag, sucept, time = np.loadtxt("results/most_likely_state_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
+  mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
   plt.figure("Plot")
-  plt.plot(mcs,absmag, '#E57375')
+  plt.plot(mcs,absmag/20**2, '#E57375')
   plt.xlabel("Number of Monte Carlo Cycles")
-  plt.ylabel("Average absolute value of magnetization")
-  plt.savefig("results/mcs_vs_magnetization_T=%s.png"%(temperature))
+  plt.ylabel("Average absolute value of magnetization per spin")
+  plt.savefig("results/mcs_vs_magnetization_T=%s.pdf"%(temperature))
   plt.close()
 
 def plot_mcs_vs_configs(temperature):
-  mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
+  mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_configs_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
   plt.figure("Plot")
-  plt.plot(mcs,configs, '#E57375')
+  plt.plot(mcs,configs/20**2, '#E57375')
   plt.xlabel("Number of Monte Carlo Cycles")
-  plt.ylabel("Accepted configurations")
-  plt.savefig("results/mcs_vs_configs_T=%s.png"%(temperature))
+  plt.ylabel("Accepted configurations per spin")
+  plt.savefig("results/mcs_vs_configs_T=%s.pdf"%(temperature))
   plt.close()
 
 
@@ -45,7 +45,7 @@ def plot_energy():
   plt.legend()
   plt.xlabel("Temperature")
   plt.ylabel("Energy per spin")
-  plt.savefig("results/energy.png")
+  plt.savefig("results/energy.pdf")
   plt.close()
 
 def plot_heatcap():
@@ -61,7 +61,7 @@ def plot_heatcap():
   plt.legend()
   plt.xlabel("Temperature")
   plt.ylabel("Heatcapacity per spin")
-  plt.savefig("results/heatcap")
+  plt.savefig("results/heatcap.pdf")
   plt.close()
 
 
@@ -78,7 +78,7 @@ def plot_absmag():
   plt.legend()
   plt.xlabel("Temperature")
   plt.ylabel("$\langle|M|\\rangle$ per spin")
-  plt.savefig("results/absmag")
+  plt.savefig("results/absmag.pdf")
   plt.close()
 
 def plot_sucept():
@@ -94,14 +94,18 @@ def plot_sucept():
   plt.legend()
   plt.xlabel("Temperature")
   plt.ylabel("Heatcapacity ($\chi$) per spin")
-  plt.savefig("results/sucept")
+  plt.savefig("results/sucept.pdf")
   plt.close()
 
 
-
-#plot_mcs_vs_mag("1")
-#plot_mcs_vs_energy("1")
-#plot_mcs_vs_configs("")
+T="1"
+T1="2,4"
+plot_mcs_vs_mag(T)
+plot_mcs_vs_energy(T)
+plot_mcs_vs_configs(T)
+plot_mcs_vs_mag(T1)
+plot_mcs_vs_energy(T1)
+plot_mcs_vs_configs(T1)
 plot_energy()
 plot_heatcap()
 plot_absmag()
