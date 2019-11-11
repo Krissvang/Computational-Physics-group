@@ -77,7 +77,7 @@ TEST_CASE("Testing the metropolis algorithm"){
     
 }
 
-=======
+//=======
 #include <cmath>
 #include <iostream>
 #include <fstream>
