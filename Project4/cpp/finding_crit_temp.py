@@ -13,5 +13,7 @@ def crit_temp():
   index_max100=np.argmax(heatcap100)
   y=[temp[index_max100],temp[index_max80],temp[index_max60],temp[index_max40]]
   slope, crit_temp, r_value, p_value, std_err = stats.linregress(x, y)
-  print(crit_temp)
+  crit_temp_exact=2/np.log(1+np.sqrt(2))
+  print("Calculated critical temperature = ", crit_temp)
+  print("Difference between exact and calulated critical temp: ", abs(crit_temp_exact-crit_temp))
 crit_temp()
