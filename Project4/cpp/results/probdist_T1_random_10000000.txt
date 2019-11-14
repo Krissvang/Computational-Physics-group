@@ -1,16 +1,17 @@
-20x20 spins, 10000000 Monte Carlo cycles, temperature = 1, 2 processes, started collecting data after 10000 cycles., random initial state
+20x20 spins, 10000000 Monte Carlo cycles, temperature = 1, 2 processes, started collecting data after 10000 cycles. , random initial state
+Standard deviation of energy: 0.00764663
 Energy per spin:     Count:
-              -2    8684525
+              -2    8689985
            -1.99          0
-           -1.98    1163641
-           -1.97      42032
-           -1.96      79715
-           -1.95       5740
-      -1.9400001       3784
-      -1.9299999        389
-           -1.92        155
-           -1.91         14
-            -1.9          4
+           -1.98    1167091
+           -1.97      42618
+           -1.96      80047
+           -1.95       5832
+      -1.9400001       3887
+      -1.9299999        377
+           -1.92        140
+           -1.91         16
+            -1.9          6
            -1.89          1
            -1.88          0
            -1.87          0

@@ -12,8 +12,8 @@ energies = {"1_ordered":[], "1_random":[], "24_ordered":[], "24_random":[]}
 
 for key in energies:
     infile = open("results/probdist_T%s_10000000.txt" % key)
-    infile.readline()
-    infile.readline()
+    for i in range(3):
+        infile.readline()
     for line in infile:
         data = line.split()
         new_energies = int(data[1])*[float(data[0])]
@@ -22,17 +22,20 @@ for key in energies:
 
 plt.figure()
 plt.hist([energies["1_ordered"], energies["1_random"]], \
-label=["Ordered initial state", "Random initial state"])
+label=["Ordered", "Random"])
 plt.legend(fontsize="14")
 plt.title("T = 1")
 plt.xlabel("Energy per spin",fontsize="14")
 plt.ylabel("Counts",fontsize="14")
+plt.tight_layout()
 plt.savefig("results/plot_probdist_T=1.pdf")
 
 plt.figure()
-plt.hist([energies["24_ordered"], energies["24_random"]], bins=20,label=["Ordered initial state", "Random initial state"])
+plt.hist([energies["24_ordered"], energies["24_random"]], \
+bins=20,label=["Ordered", "Random"])
 plt.legend(fontsize="14")
 plt.title("T = 2.4")
 plt.xlabel("Energy per spin",fontsize="14")
 plt.ylabel("Counts",fontsize="14")
+plt.tight_layout()
 plt.savefig("results/plot_probdist_T=2,4.pdf")

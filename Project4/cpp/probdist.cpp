@@ -40,10 +40,9 @@ int main(int argc, char *argv[]) {
     ofile.open(filename);
     ofile << n_spins << "x" << n_spins << " spins, " << mcs <<
     " Monte Carlo cycles, temperature = " << T << ", " << numprocs <<
-    " processes, started collecting data after " << steady_start << " cycles.";
+    " processes, started collecting data after " << steady_start << " cycles. ";
     if(init == "r") ofile << ", random initial state" << endl;
     else ofile << ", ordered initial state" << endl;
-    ofile << "Energy per spin:     Count:" << endl;
   }
   double E_avg, heatcap, M_avg, M_abs_avg, susc;
   double local_E_avg, local_heatcap, local_M_avg, local_M_abs_avg, local_susc;
@@ -55,6 +54,12 @@ int main(int argc, char *argv[]) {
   double E_min = -2*n_spins*n_spins;
   ising(n_spins,local_mcs,T,init,local_E_avg,local_heatcap,
     local_M_avg,local_M_abs_avg,local_susc, local_count, local_steady_start, count_configs);
+  MPI_Reduce(&local_heatcap, &heatcap, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+  double std_E = sqrt(T*T*heatcap/numprocs/pow(n_spins,4));
+  if(my_rank == 0){
+    ofile << "Standard deviation of energy: " << std_E << endl;
+    ofile << "Energy per spin:     Count:" << endl;
+  }
   for(int i=0; i < local_count.size(); i++){
     local_count_i = local_count[i];
     MPI_Reduce(&local_count_i, &count_i, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
