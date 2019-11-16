@@ -37,6 +37,6 @@ def crit_temp():
   plt.plot(x,y, 'ro',label="Calculatet critical temp")
   plt.plot(x,crit_temp+slope*x,'b',label="Linreg of the points")
   plt.legend()
-  plt.savefig("results/critical_temp_graph")
+  plt.savefig("results/critical_temp_graph.pdf")
   plt.close()
 crit_temp()
