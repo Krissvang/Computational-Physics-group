@@ -9,6 +9,7 @@ using namespace std::chrono;
 
 ofstream ofile;
 
+//This program lets you choose the parameters and run the Ising model with them.
 int main(int argc, char *argv[])
 {
   int n_spins, mcs, steady_start;
@@ -36,7 +37,8 @@ int main(int argc, char *argv[])
 
   filename = "results/" + filename + ".txt";
   ofile.open(filename);
-  ofile << n_spins << "x" << n_spins << " spins, " << mcs << " Monte Carlo cycles";
+  ofile << n_spins << "x" << n_spins << " spins, " << mcs
+        << " Monte Carlo cycles";
   if (init == "r")
     ofile << ", random initial state" << endl;
   else
@@ -51,7 +53,8 @@ int main(int argc, char *argv[])
   for (double temperature = T_low; temperature < T_high; temperature += dT)
   {
     start = high_resolution_clock::now();
-    ising(n_spins, mcs, temperature, init, E_avg, heatcap, M_avg, M_abs_avg, susc, count, steady_start, count_configs);
+    ising(n_spins, mcs, temperature, init, E_avg, heatcap, M_avg,
+          M_abs_avg, susc, count, steady_start, count_configs);
     end = high_resolution_clock::now();
     duration<double> elapsed = end - start;
     time = elapsed.count();

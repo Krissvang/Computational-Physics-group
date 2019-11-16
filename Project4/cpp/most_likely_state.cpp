@@ -41,8 +41,9 @@ int main(int argc, char const *argv[])
     ofile << ", random initial state" << endl;
   else
     ofile << ", ordered initial state" << endl;
-  ofile << "Monte Carlo cycles     Avg. energy   Heat capacity  Avg. magnetization   "
-           "Avg. magnetization (abs. value)  Susceptibility            Time    Accepted configs"
+  ofile << "Monte Carlo cycles     Avg. energy   Heat capacity "
+           "Avg. magnetization   Avg. magnetization (abs. value)  Susceptibility     "
+           "       Time    Accepted configs"
         << endl;
   time_point<high_resolution_clock> start, end;
   double E_avg, heatcap, M_avg, M_abs_avg, susc, time;
@@ -51,7 +52,8 @@ int main(int argc, char const *argv[])
   {
     int count_configs = 0;
     start = high_resolution_clock::now();
-    ising(n_spins, mcs, temperature, init, E_avg, heatcap, M_avg, M_abs_avg, susc, count, steady_start, count_configs);
+    ising(n_spins, mcs, temperature, init, E_avg, heatcap, M_avg, M_abs_avg,
+          susc, count, steady_start, count_configs);
     end = high_resolution_clock::now();
     duration<double> elapsed = end - start;
     time = elapsed.count();
