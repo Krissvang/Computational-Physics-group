@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 def plot_mcs_vs_energy(temperature):
   mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
   plt.figure("Plot")
-  plt.plot(mcs,energy/20**2,'#E57375')
+  plt.plot(mcs,energy/20**2,'#E57375',marker='o', linestyle='dashed', markersize='3')
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Average energy per spin",fontsize="14")
   plt.savefig("results/mcs_vs_energy_T=%s.pdf"%(temperature))
@@ -16,7 +16,7 @@ def plot_mcs_vs_energy(temperature):
 def plot_mcs_vs_mag(temperature):
   mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
   plt.figure("Plot")
-  plt.plot(mcs,absmag/20**2, '#E57375')
+  plt.plot(mcs,absmag/20**2, '#E57375',marker='o', linestyle='dashed', markersize='3')
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Average absolute value of magnetization per spin",fontsize="13")
   plt.savefig("results/mcs_vs_magnetization_T=%s.pdf"%(temperature))
@@ -25,7 +25,7 @@ def plot_mcs_vs_mag(temperature):
 def plot_mcs_vs_configs(temperature):
   mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_configs_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
   plt.figure("Plot")
-  plt.plot(mcs,configs, '#E57375')
+  plt.plot(mcs,configs, '#E57375',marker='o', linestyle='', markersize='2')
   plt.gcf().subplots_adjust(left=0.2)
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Accepted configurations",fontsize="14")
@@ -35,7 +35,7 @@ def plot_mcs_vs_configs(temperature):
 def plot_mcs_vs_energy_ordered(temperature):
   mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_ordered_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
   plt.figure("Plot")
-  plt.plot(mcs,energy/20**2,'#E57375')
+  plt.plot(mcs,energy/20**2,'#E57375',marker='o', linestyle='dashed', markersize='3')
   plt.gcf().subplots_adjust(bottom=0.15,left=0.2)
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Average energy per spin",fontsize="14")
@@ -45,7 +45,7 @@ def plot_mcs_vs_energy_ordered(temperature):
 def plot_mcs_vs_mag_ordered(temperature):
   mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_ordered_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
   plt.figure("Plot")
-  plt.plot(mcs,absmag/20**2, '#E57375')
+  plt.plot(mcs,absmag/20**2, '#E57375',marker='o', linestyle='dashed', markersize='3')
   plt.gcf().subplots_adjust(bottom=0.15,left=0.2)
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Average absolute value of magnetization per spin",fontsize="13")
@@ -55,7 +55,7 @@ def plot_mcs_vs_mag_ordered(temperature):
 def plot_mcs_vs_configs_ordered(temperature):
   mcs, energy, heatcap, mag, absmag, sucept, time, configs = np.loadtxt("results/most_likely_state_ordered_configs_T=%s.txt"%(temperature), skiprows=2,unpack=True) 
   plt.figure("Plot")
-  plt.plot(mcs,configs, '#E57375')
+  plt.plot(mcs,configs, '#E57375',marker='o', linestyle='', markersize='2')
   plt.gcf().subplots_adjust(left=0.2)
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Accepted configurations",fontsize="14")
@@ -146,7 +146,7 @@ plot_mcs_vs_mag_ordered(T1)
 plot_mcs_vs_energy_ordered(T1)
 plot_mcs_vs_configs_ordered(T1)
 
-plot_energy()
-plot_heatcap()
-plot_absmag()
-plot_sucept()
+#plot_energy()
+#plot_heatcap()
+#plot_absmag()
+#plot_sucept()
