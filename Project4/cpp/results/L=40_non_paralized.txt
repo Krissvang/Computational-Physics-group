@@ -1,0 +1,5 @@
+40x40 spins, 10000000 Monte Carlo cycles, random initial state
+Temperature     Avg. energy   Heat capacity  Avg. magnetization   Avg. magnetization (abs. value)  Susceptibility            Time    
+          2      -2792.9699       1158.7869           1458.1559                         1458.1559       614.67881       806.33601
+        2.2      -2474.7662       2250.0663          -472.89332                         1256.3305       623153.55        822.8238
+        2.4       -1932.351       1946.6265           6.4793041                          411.6693       100830.57       837.19006

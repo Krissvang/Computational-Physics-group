@@ -22,7 +22,7 @@ def plot_mcs_vs_energy(temperature):
    linestyle='dashed', markersize='3')
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Average energy per spin",fontsize="14")
-  plt.savefig("results/mcs_vs_energy_T=%s.png"%(temperature))
+  plt.savefig("results/mcs_vs_energy_T=%s.pdf"%(temperature))
   plt.close()
 
 def plot_mcs_vs_mag(temperature):
@@ -34,7 +34,7 @@ def plot_mcs_vs_mag(temperature):
    linestyle='dashed', markersize='3')
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Average absolute value of magnetization per spin",fontsize="13")
-  plt.savefig("results/mcs_vs_magnetization_T=%s.png"%(temperature))
+  plt.savefig("results/mcs_vs_magnetization_T=%s.pdf"%(temperature))
   plt.close()
 
 def plot_mcs_vs_configs(temperature):
@@ -47,7 +47,7 @@ def plot_mcs_vs_configs(temperature):
   plt.gcf().subplots_adjust(left=0.2)
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Accepted configurations",fontsize="14")
-  plt.savefig("results/mcs_vs_configs_T=%s.png"%(temperature))
+  plt.savefig("results/mcs_vs_configs_T=%s.pdf"%(temperature))
   plt.close()
 
 def plot_mcs_vs_energy_ordered(temperature):
@@ -60,7 +60,7 @@ def plot_mcs_vs_energy_ordered(temperature):
   plt.gcf().subplots_adjust(bottom=0.15,left=0.2)
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Average energy per spin",fontsize="14")
-  plt.savefig("results/mcs_vs_energy_ordered_T=%s.png"%(temperature))
+  plt.savefig("results/mcs_vs_energy_ordered_T=%s.pdf"%(temperature))
   plt.close()
 
 def plot_mcs_vs_mag_ordered(temperature):
@@ -73,7 +73,7 @@ def plot_mcs_vs_mag_ordered(temperature):
   plt.gcf().subplots_adjust(bottom=0.15,left=0.2)
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Average absolute value of magnetization per spin",fontsize="13")
-  plt.savefig("results/mcs_vs_magnetization_ordered_T=%s.png"%(temperature))
+  plt.savefig("results/mcs_vs_magnetization_ordered_T=%s.pdf"%(temperature))
   plt.close()
 
 def plot_mcs_vs_configs_ordered(temperature):
@@ -86,7 +86,7 @@ def plot_mcs_vs_configs_ordered(temperature):
   plt.gcf().subplots_adjust(left=0.2)
   plt.xlabel("Number of Monte Carlo Cycles",fontsize="14")
   plt.ylabel("Accepted configurations",fontsize="14")
-  plt.savefig("results/mcs_vs_configs_ordered_T=%s.png"%(temperature))
+  plt.savefig("results/mcs_vs_configs_ordered_T=%s.pdf"%(temperature))
   plt.close()
 
 
@@ -114,7 +114,7 @@ def plot_energy():
   plt.legend(fontsize="14")
   plt.xlabel("Temperature",fontsize="14")
   plt.ylabel("Energy per spin",fontsize="14")
-  plt.savefig("results/energy.png")
+  plt.savefig("results/energy.pdf")
   plt.close()
 
 def plot_heatcap():
@@ -138,8 +138,8 @@ def plot_heatcap():
   linestyle="", alpha=.7, markersize=4, label="L=100")
   plt.legend(fontsize="14")
   plt.xlabel("Temperature",fontsize="14")
-  plt.ylabel("Heatcapacity per spin",fontsize="14")
-  plt.savefig("results/heatcap.png")
+  plt.ylabel("Heatcapacity ($C_V$) per spin",fontsize="14")
+  plt.savefig("results/heatcap.pdf")
   plt.close()
 
 
@@ -165,7 +165,7 @@ def plot_absmag():
   plt.legend(fontsize="14")
   plt.xlabel("Temperature",fontsize="14")
   plt.ylabel("$\langle|M|\\rangle$ per spin",fontsize="14")
-  plt.savefig("results/absmag.png")
+  plt.savefig("results/absmag.pdf")
   plt.close()
 
 def plot_sucept():
@@ -185,8 +185,8 @@ def plot_sucept():
   plt.plot(temp,sucept100/100**2,c='#F16A70',marker='o', linestyle="", alpha=.7, markersize=4, label="L=100")
   plt.legend(fontsize="14")
   plt.xlabel("Temperature",fontsize="14")
-  plt.ylabel("Heatcapacity ($\chi$) per spin",fontsize="14")
-  plt.savefig("results/sucept.png")
+  plt.ylabel("Suceptibility ($\chi$) per spin",fontsize="14")
+  plt.savefig("results/sucept.pdf")
   plt.close()
   
 def plot_probdist():
@@ -215,7 +215,7 @@ def plot_probdist():
   plt.xlabel("Energy per spin",fontsize="14")
   plt.ylabel("Counts",fontsize="14")
   plt.tight_layout()
-  plt.savefig("results/plot_probdist_T=1.png")
+  plt.savefig("results/plot_probdist_T=1.pdf")
 
   plt.figure()
   plt.hist([energies["24_ordered"], energies["24_random"]], \
@@ -225,7 +225,7 @@ def plot_probdist():
   plt.xlabel("Energy per spin",fontsize="14")
   plt.ylabel("Counts",fontsize="14")
   plt.tight_layout()
-  plt.savefig("results/plot_probdist_T=2,4.png")
+  plt.savefig("results/plot_probdist_T=2,4.pdf")
   plt.close()
 
 
