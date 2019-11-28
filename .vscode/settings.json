@@ -5,7 +5,8 @@
     "cmath": "cpp",
     "ostream": "cpp",
     "fstream": "cpp",
-    "chrono": "cpp"
+    "chrono": "cpp",
+    "iomanip": "cpp"
   },
   "python.pythonPath": "C:\\Users\\krist\\Anaconda3\\python.exe"
 }
