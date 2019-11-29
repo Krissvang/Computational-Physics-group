@@ -155,9 +155,23 @@ double E_repuls(mat &r, double alpha, double omega)
   return E2;
 }
 
+double E2(mat &r, double alpha, double omega, double beta)
+{
+  double r12 = sqrt(r_squared(r));
+  double E = E1(r,alpha,omega)+1/(2*pow(1+beta*r12,2))*(alpha*omega*r12-1/(2*pow(1+beta*r12,2))-2/r12+2*beta/(1+beta*r12));
+  return E;
+}
+
 double P1(mat &r, double alpha, double omega)
 {
   double P = abs(alpha * omega / acos(-1)) * exp(-alpha * omega * (r_squared(r)));
+  return P;
+}
+
+double P2(mat &r, double alpha, double omega, double beta)
+{
+  double sq_r = r_squared(r);
+  double P =exp(-alpha * omega * sq_r-sqrt(sq_r)/(1+beta*sqrt(sq_r)));
   return P;
 }
 
@@ -188,5 +202,3 @@ double Kinetic_E(mat &r, double f, double h, double alpha, double beta, double o
   T_Local = 0.5 * h2_der * T_Local / (f);
   return T_Local;
 }
-
-
