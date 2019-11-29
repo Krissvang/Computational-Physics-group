@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
   char *filename = argv[1];
   ofile.open(filename);
-  ofile << "Alpha       E w/o Colomb   Var w/o Colomb    "
+  ofile << "Alpha       E             Var               "
         "  Accepted moves" << endl;
 
   mat r(2, 3);

@@ -135,7 +135,6 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
     }
 
     acceptance_ratio = accepted / ((double)mcs);
-    cout << acceptance_ratio << endl;
     accepted = 0;
 
     condition = acceptance_ratio >= 0.5 - error && acceptance_ratio <= 0.5 + error;
@@ -157,8 +156,7 @@ double E_repuls(mat &r, double alpha, double omega)
 
 double E2(mat &r, double alpha, double omega, double beta)
 {
-  double r12 = sqrt(r_squared(r));
-  double E = E1(r,alpha,omega)+1/(2*pow(1+beta*r12,2))*(alpha*omega*r12-1/(2*pow(1+beta*r12,2))-2/r12+2*beta/(1+beta*r12));
+  double E = E1(r,alpha,omega)+1/(2*pow(1+beta*r_12(r),2))*(alpha*omega*r_12(r)-1/(2*pow(1+beta*r_12(r),2))-2/r_12(r)+2*beta/(1+beta*r_12(r)));
   return E;
 }
 
@@ -170,8 +168,7 @@ double P1(mat &r, double alpha, double omega)
 
 double P2(mat &r, double alpha, double omega, double beta)
 {
-  double sq_r = r_squared(r);
-  double P =exp(-alpha * omega * sq_r-sqrt(sq_r)/(1+beta*sqrt(sq_r)));
+  double P =exp(-alpha * omega * r_squared(r)-r_12(r)/(1+beta*r_12(r)));
   return P;
 }
 
