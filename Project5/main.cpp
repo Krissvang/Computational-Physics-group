@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
   uniform_real_distribution<double> pos_dist(-1.0, 1.0);
   uniform_real_distribution<double> unif_dist(0, 1);
   uniform_real_distribution<double> move_dist(-0.5, 0.5);
-  
+
   int mcs;
   cout << "Please enter the number of monte carlo cylcles" << endl;
   cin >> mcs;
@@ -54,13 +54,14 @@ int main(int argc, char *argv[])
         }
       }
 
-      double local_energy = E1(r, alpha, omega);
+      
       double w = P1(local_r, alpha, omega) / P1(r, alpha, omega);
       if (unif_dist(gen) <= w)
       {
         r = local_r;
         accepted_moves += 1;
       }
+      double local_energy = E1(r, alpha, omega);
       energy += local_energy;
       energy2 += local_energy * local_energy;
     }
