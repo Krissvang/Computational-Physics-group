@@ -18,9 +18,9 @@ double TrialWaveFunction2(mat &, double, double, double);
 double FindOptimal_h(double alpha, double, double, int,
                      double (*TrialFunction)(mat &, double, double, double));
 double r_squared(mat &r);
-double E1(mat &, double, double, double (*r_squared)(mat &));
-double E_repuls(mat &, double, double, double (*r_squared)(mat &));
-double P1(mat &, double, double, double (*r_squared)(mat &));
+double E1(mat &, double, double);
+double E_repuls(mat &, double, double);
+double P1(mat &, double, double);
 mat init_pos();
 double Kinetic_E(mat &, double, double, double, double, double, int,
                  double (*trialFunction)(mat &r, double, double, double));

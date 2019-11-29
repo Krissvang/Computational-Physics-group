@@ -132,25 +132,24 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
 
     acceptance_ratio = accepted / ((double)mcs);
     accepted = 0;
-    h -= 0.01;
     condition = acceptance_ratio > 0.5 + error;
   }
   return h;
 }
 
-double E1(mat &r, double alpha, double omega, double (*r_squared)(mat &))
+double E1(mat &r, double alpha, double omega)
 {
   double E = 0.5 * omega * omega * (r_squared(r)) * (1 - alpha * alpha) + 3 * alpha * omega;
   return E;
 }
 
-double E_repuls(mat &r, double alpha, double omega, double (*r_squared)(mat &))
+double E_repuls(mat &r, double alpha, double omega)
 {
   double E2 = 1 / (r_12(r));
   return E2;
 }
 
-double P1(mat &r, double alpha, double omega, double (*r_squared)(mat &))
+double P1(mat &r, double alpha, double omega)
 {
   double P = abs(alpha * omega / acos(-1)) * exp(-alpha * omega * (r_squared(r)));
   return P;
@@ -183,3 +182,5 @@ double Kinetic_E(mat &r, double f, double h, double alpha, double beta, double o
   T_Local = 0.5 * h2_der * T_Local / (f);
   return T_Local;
 }
+
+
