@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
   for (double alpha = 0.2; alpha < 1.6; alpha += 0.1)
   {
-    double h = FindOptimal_h(alpha, beta, omega, mcs, TrialWaveFunction1);
+    double h = FindOptimal_h(alpha, beta, omega, mcs/10, TrialWaveFunction1);
 
     double energy = E1(r, alpha, omega);
     double energy2 = energy * energy;
@@ -51,9 +51,9 @@ int main(int argc, char *argv[])
       {
         for (int j = 0; j < 3; j++)
         {
+          local_r(i,j)=r(i,j)+h*move_dist(gen);
         }
       }
-
       
       double w = P1(local_r, alpha, omega) / P1(r, alpha, omega);
       if (unif_dist(gen) <= w)

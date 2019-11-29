@@ -90,7 +90,8 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
   uniform_real_distribution<double> unif_dist(0, 1);
   uniform_real_distribution<double> move_dist(-0.5, 0.5);
 
-  double h = 10;
+  double h = 4;
+  double dh = 0.01;
   double error = 0.05; //Five percent
   int accepted = 0;    //To store number of accepted transitions
   double acceptance_ratio = accepted / ((double)mcs);
@@ -98,7 +99,7 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
   double new_wave_func, old_wave_func;
   bool condition = (0.5 - error) < acceptance_ratio && acceptance_ratio < (0.5 + error);
 
-  while (condition != 1 && h > 0)
+  while (condition != 1)
   {
     mat r_new(2, 3);
     r_new.zeros();
@@ -106,7 +107,10 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
 
     for (int cycle = 0; cycle < mcs; cycle++)
     {
-
+      if(h<0){
+        h=4;
+        dh *= 0.1;}
+      h-=dh;
       r_old = init_pos();
 
       old_wave_func = TrialWaveFunction(r_old, alpha, beta, omega);
@@ -131,8 +135,10 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
     }
 
     acceptance_ratio = accepted / ((double)mcs);
+    cout << acceptance_ratio << endl;
     accepted = 0;
-    condition = acceptance_ratio > 0.5 + error;
+
+    condition = acceptance_ratio >= 0.5 - error && acceptance_ratio <= 0.5 + error;
   }
   return h;
 }
