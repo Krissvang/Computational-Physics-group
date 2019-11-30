@@ -92,7 +92,7 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
 
   double h = 4;
   double dh = 0.01;
-  double error = 0.05; //Five percent
+  double error = 0.005; //0.5 percent
   int accepted = 0;    //To store number of accepted transitions
   double acceptance_ratio = accepted / ((double)mcs);
   double w = 0;
@@ -103,7 +103,7 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
   {
     mat r_new(2, 3);
     r_new.zeros();
-    mat r_old(2, 3);
+    mat r_old(2, 3) = init_pos();
 
     for (int cycle = 0; cycle < mcs; cycle++)
     {
@@ -111,7 +111,6 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
         h=4;
         dh *= 0.1;}
       h-=dh;
-      r_old = init_pos();
 
       old_wave_func = TrialWaveFunction(r_old, alpha, beta, omega);
       for (int i = 0; i < 2; i++)
