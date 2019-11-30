@@ -79,7 +79,7 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
       wavefunc = new_wavefunc;
       accepted_moves += 1;
     }
-    local_energy = localE(r, alpha, omega, beta);
+    local_energy = localE(r, alpha, beta, omega);
     local_r12 = r_12(r);
     E_avg += local_energy;
     E2_avg += local_energy * local_energy;
@@ -118,7 +118,7 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
     solver(E_avg, var_E, r12_avg, accepted_moves, mcs, alpha, beta, omega,
            TrialWaveFunction, localE, h);
     acceptance_ratio = accepted_moves / ((double)mcs);
-
+    cout << acceptance_ratio << endl;
     condition = acceptance_ratio > 0.5 - error &&
                 acceptance_ratio < 0.5 + error;
   }
@@ -186,21 +186,21 @@ double TrialWaveFunction2(mat &r, double alpha, double beta, double omega)
 }
 
 //Local energy with "simple" trial wavefunction, no interaction
-double E1(mat &r, double alpha, double omega, double beta)
+double E1(mat &r, double alpha, double beta, double omega)
 {
   double E = 0.5 * omega * omega * (r_squared(r)) * (1 - alpha * alpha) + 3 * alpha * omega;
   return E;
 }
 
 //Local energy with "simple" trial wavefunction, with interaction
-double E_repuls(mat &r, double alpha, double omega, double beta)
+double E_repuls(mat &r, double alpha, double beta, double omega)
 {
   double E2 = 1 / (r_12(r));
-  return E1(r, alpha, omega, beta) + E2;
+  return E1(r, alpha, beta, omega) + E2;
 }
 
 //Local energy for improved trial wavefunction
-double E2(mat &r, double alpha, double omega, double beta)
+double E2(mat &r, double alpha, double beta, double omega)
 {
   double E = E1(r,alpha,omega,beta)+1/(2*pow(1 + beta*r_12(r),2))
   *(alpha*omega*r_12(r) - 1/(2*pow(1 + beta*r_12(r),2))
