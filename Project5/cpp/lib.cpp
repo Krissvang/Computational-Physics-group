@@ -103,7 +103,7 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
   {
     mat r_new(2, 3);
     r_new.zeros();
-    mat r_old(2, 3) = init_pos();
+    mat r_old = init_pos();
 
     for (int cycle = 0; cycle < mcs; cycle++)
     {
