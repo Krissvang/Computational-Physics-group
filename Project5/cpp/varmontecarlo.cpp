@@ -50,7 +50,8 @@ double r_12(mat &r)
 void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
             int mcs, double alpha, double beta, double omega,
             double (*TrialWaveFunction)(mat &, double, double, double),
-            double (*localE)(mat &, double, double, double), double h){
+            double (*localE)(mat &, double, double, double), double h)
+{
   //Initialize:
   E_avg = r12_avg = 0;
   double E2_avg = 0;
@@ -68,11 +69,11 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
     {
       for (int j = 0; j < 3; j++)
       {
-        local_r(i,j)=r(i,j)+h*move_dist(gen);
+        local_r(i, j) = r(i, j) + h * move_dist(gen);
       }
     }
     new_wavefunc = TrialWaveFunction(local_r, alpha, beta, omega);
-    w = (new_wavefunc*new_wavefunc)/(wavefunc*wavefunc);
+    w = (new_wavefunc * new_wavefunc) / (wavefunc * wavefunc);
     if (unif_dist(gen) <= w)
     {
       r = local_r;
@@ -84,7 +85,6 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
     E_avg += local_energy;
     E2_avg += local_energy * local_energy;
     r12_avg += local_r12;
-
   }
   E_avg /= mcs;
   E2_avg /= mcs;
@@ -96,12 +96,13 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
 //Function to find optimal step length h
 double FindOptimal_h(double alpha, double beta, double omega, int mcs,
                      double (*TrialWaveFunction)(mat &, double, double,
-                     double), double (*localE)(mat &, double, double, double))
+                                                 double),
+                     double (*localE)(mat &, double, double, double))
 {
   double h = 4;
   double dh = 0.01;
-  double error = 0.005; //0.5 percent
-  int accepted_moves = 0;    //To store number of accepted transitions
+  double error = 0.005;   //0.5 percent
+  int accepted_moves = 0; //To store number of accepted transitions
   double acceptance_ratio = accepted_moves / ((double)mcs);
   bool condition = (0.5 - error) < acceptance_ratio &&
                    acceptance_ratio < (0.5 + error);
@@ -109,16 +110,15 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
 
   while (condition != 1)
   {
-    if(h<0)
+    if (h < 0)
     {
-      h=4;
+      h = 4;
       dh *= 0.1;
     }
-    h-=dh;
+    h -= dh;
     solver(E_avg, var_E, r12_avg, accepted_moves, mcs, alpha, beta, omega,
            TrialWaveFunction, localE, h);
     acceptance_ratio = accepted_moves / ((double)mcs);
-    cout << acceptance_ratio << endl;
     condition = acceptance_ratio > 0.5 - error &&
                 acceptance_ratio < 0.5 + error;
   }
@@ -129,8 +129,9 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
 void var_mc(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
             int mcs, double alpha, double beta, double omega,
             double (*TrialWaveFunction)(mat &, double, double, double),
-            double (*localE)(mat &, double, double, double)){
-  double h = FindOptimal_h(alpha, beta, omega, mcs/10, TrialWaveFunction,
+            double (*localE)(mat &, double, double, double))
+{
+  double h = FindOptimal_h(alpha, beta, omega, mcs / 10, TrialWaveFunction,
                            localE);
   solver(E_avg, var_E, r12_avg, accepted_moves, mcs, alpha, beta, omega,
          TrialWaveFunction, localE, h);
@@ -202,9 +203,7 @@ double E_repuls(mat &r, double alpha, double beta, double omega)
 //Local energy for improved trial wavefunction
 double E2(mat &r, double alpha, double beta, double omega)
 {
-  double E = E1(r,alpha,omega,beta)+1/(2*pow(1 + beta*r_12(r),2))
-  *(alpha*omega*r_12(r) - 1/(2*pow(1 + beta*r_12(r),2))
-  - 2/r_12(r)+2*beta/(1 + beta*r_12(r)));
+  double E = E1(r, alpha, omega, beta) + 1 / (2 * pow(1 + beta * r_12(r), 2)) * (alpha * omega * r_12(r) - 1 / (2 * pow(1 + beta * r_12(r), 2)) - 2 / r_12(r) + 2 * beta / (1 + beta * r_12(r)));
   return E;
 }
 

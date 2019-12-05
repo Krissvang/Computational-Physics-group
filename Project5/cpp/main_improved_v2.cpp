@@ -12,8 +12,6 @@ using namespace std;
 
 ofstream ofile;
 
-
-
 int main(int argc, char *argv[])
 {
   int mcs;
@@ -26,23 +24,26 @@ int main(int argc, char *argv[])
   cin >> beta;
 
   string filename;
-  if(argc < 2){
+  if (argc < 2)
+  {
     cout << "Please read in filename on the same line." << endl;
     exit(1);
   }
-  else{
+  else
+  {
     filename = argv[1];
-    filename = "results/"+filename;
+    filename = "results/" + filename;
   }
   ofile.open(filename);
   ofile << " Alpha              E            Var            r12"
-        "  Accepted moves" << endl;
+           "  Accepted moves"
+        << endl;
 
   int accepted_moves;
   double energy, variance, r12;
   for (double alpha = 0.2; alpha < 1.6; alpha += 0.1)
   {
-    var_mc(energy, variance, r12, accepted_moves, mcs, alpha, beta, omega, TrialWaveFunction2, E2);
+    var_mc(energy, variance, r12, accepted_moves, mcs, alpha, beta, omega, TrialWaveFunction1, E_repuls);
 
     ofile << setprecision(8) << setw(6) << alpha;
     ofile << setprecision(8) << setw(15) << energy;
