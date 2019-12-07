@@ -14,13 +14,6 @@ ofstream ofile;
 
 int main(int argc, char *argv[])
 {
-  int mcs;
-  double omega;
-  cout << "Please enter the number of monte carlo cylcles" << endl;
-  cin >> mcs;
-  cout << "Please read in frequency (omega)" << endl;
-  cin >> omega;
-
   string filename;
   if(argc < 2){
     cout << "Please read in output file name on the same line." << endl;
@@ -30,6 +23,13 @@ int main(int argc, char *argv[])
     filename = argv[1];
     filename = "results/"+filename;
   }
+  int mcs;
+  double omega;
+  cout << "Please enter the number of monte carlo cycles" << endl;
+  cin >> mcs;
+  cout << "Please read in frequency (omega)" << endl;
+  cin >> omega;
+
   ofile.open(filename);
   ofile << " Alpha    E w/o Coloumb   Var w/o Coloumb      E w Coloumb"
         "    V w Coloumb  Accepted moves w/o Coloumb  Accepted moves w Coloumb" << endl;
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
   double energy_w_coloumb, variance_w_coloumb, r12_w_coloumb;
 
   double beta = 0;
-  for (double alpha = 0.2; alpha < 1.6; alpha += 0.1)
+  for (double alpha = 0.2; alpha < 1.6; alpha += 0.02)
   {
     var_mc(energy_wo_coloumb, variance_wo_coloumb, r12_wo_coloumb,
            accepted_moves_wo_coloumb, mcs, alpha, beta, omega,

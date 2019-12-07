@@ -162,18 +162,7 @@ double r_squared(mat &r)
 //Simple trial wavefunction
 double TrialWaveFunction1(mat &r, double alpha, double beta, double omega)
 {
-  double argument, wavefunction, r_i;
-  argument = wavefunction = 0;
-
-  for (int i = 0; i < 2; i++)
-  {
-    for (int j = 0; j < 3; j++)
-    {
-      r_i += r(i, j) * r(i, j);
-    }
-    argument += r_i;
-  }
-  wavefunction = exp(-0.5 * alpha * omega * argument);
+  double wavefunction = exp(-0.5 * alpha * omega * r_squared(r));
   return wavefunction;
 }
 
