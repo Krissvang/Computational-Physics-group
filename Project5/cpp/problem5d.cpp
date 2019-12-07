@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
           << endl;
     for (double beta = 0.2; beta < 1.6; beta += 0.1)
     {
-      var_mc(energy, variance, r12, accepted_moves, mcs, fixed_par, beta, omega, TrialWaveFunction1, E_repuls);
+      var_mc(energy, variance, r12, accepted_moves, mcs, fixed_par, beta, omega, TrialWaveFunction2, E_repuls);
 
       ofile << setprecision(8) << setw(6) << beta;
       ofile << setprecision(8) << setw(15) << energy;
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
           << endl;
     for (double alpha = 0.2; alpha < 1.6; alpha += 0.1)
     {
-      var_mc(energy, variance, r12, accepted_moves, mcs, alpha, fixed_par, omega, TrialWaveFunction1, E_repuls);
+      var_mc(energy, variance, r12, accepted_moves, mcs, alpha, fixed_par, omega, TrialWaveFunction2, E_repuls);
 
       ofile << setprecision(8) << setw(6) << alpha;
       ofile << setprecision(8) << setw(15) << energy;
