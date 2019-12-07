@@ -40,10 +40,10 @@ int main(int argc, char *argv[])
         << endl;
 
   int accepted_moves;
-  double energy, variance, r12;
+  double energy, variance, r12, KE, var_KE;
   for (double alpha = 0.2; alpha < 1.6; alpha += 0.1)
   {
-    var_mc(energy, variance, r12, accepted_moves, mcs, alpha, beta, omega, TrialWaveFunction1, E_repuls);
+    var_mc(energy, variance, r12, accepted_moves, mcs, alpha, beta, omega, TrialWaveFunction1, E_repuls, KE, var_KE);
 
     ofile << setprecision(8) << setw(6) << alpha;
     ofile << setprecision(8) << setw(15) << energy;
