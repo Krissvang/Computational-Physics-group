@@ -67,7 +67,7 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
   mat local_r(2, 3);
   double local_P_energy, local_KE_energy;
   double local_r12;
-  for (int i = 0; i < mcs; i++)
+  for (int n = 0; n < mcs; n++)
   {
     for (int i = 0; i < 2; i++)
     {
