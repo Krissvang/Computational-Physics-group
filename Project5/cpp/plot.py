@@ -20,4 +20,5 @@ def plot_energy_vs_alpha(w):
   plt.savefig("results/energy_vs_alpha_w=%s.png"%(w))
   plt.close()
 
+
 plot_energy_vs_alpha(omega)

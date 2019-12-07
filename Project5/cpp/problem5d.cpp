@@ -42,6 +42,11 @@ int main(int argc, char *argv[])
 
   int accepted_moves;
   double energy, variance, r12, KE, var_KE;
+
+  double parameter_min = 0.8;
+  double parameter_max = 1.0;
+  double parameter_step = 0.001;
+
   if (fixed_par_name == "alpha")
   {
     ofile << "Alpha = " << fixed_par << endl;
@@ -49,9 +54,9 @@ int main(int argc, char *argv[])
              "            KE Var            r12"
              "     Accepted moves"
           << endl;
-    for (double beta = 0.2; beta < 1.6; beta += 0.1)
+    for (double beta = parameter_min; beta < parameter_max; beta += parameter_step)
     {
-      var_mc(energy, variance, r12, accepted_moves, mcs, fixed_par, beta, omega, TrialWaveFunction2, E2, KE, var_KE);
+      var_mc(energy, variance, r12, accepted_moves, mcs, fixed_par, beta, omega, TrialWaveFunction1, E_repuls, KE, var_KE);
 
       ofile << setprecision(8) << setw(6) << beta;
       ofile << setprecision(8) << setw(15) << energy;
@@ -69,9 +74,9 @@ int main(int argc, char *argv[])
              "          KE Var        r12"
              "      Accepted moves"
           << endl;
-    for (double alpha = 0.2; alpha < 1.6; alpha += 0.1)
+    for (double alpha = parameter_min; alpha < parameter_max; alpha += parameter_step)
     {
-      var_mc(energy, variance, r12, accepted_moves, mcs, alpha, fixed_par, omega, TrialWaveFunction2, E2, KE, var_KE);
+      var_mc(energy, variance, r12, accepted_moves, mcs, alpha, fixed_par, omega, TrialWaveFunction1, E_repuls, KE, var_KE);
 
       ofile << setprecision(8) << setw(6) << alpha;
       ofile << setprecision(8) << setw(15) << energy;
