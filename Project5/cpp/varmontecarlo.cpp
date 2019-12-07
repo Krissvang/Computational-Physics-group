@@ -213,12 +213,10 @@ double Kinetic_E(mat &r, double wfold, double h, double alpha, double beta,
                  double (*trialFunction)(mat &r, double, double, double))
 {
   double f_minus, f_plus, T_Local;
-  double hh = h * h;
   mat r_plus(2, 3), r_minus(2, 3);
   r_plus = r_minus = r;
-  double h_der = 1 / mcs;    //Step-size for the differentiation
-  double h2_der = mcs * mcs; //Inverse squared Step-size for the differentiation
-
+  double h_der = 1. / (double)mcs;   //Step-size for the differentiation
+  double h2_der = (double)mcs * mcs; //Inverse squared Step-size for the differentiation
   T_Local = 0;
   for (int i = 0; i < 2; i++)
   {
@@ -228,11 +226,12 @@ double Kinetic_E(mat &r, double wfold, double h, double alpha, double beta,
       r_minus(i, j) = r(i, j) - h_der;
       f_minus = trialFunction(r_minus, alpha, beta, omega);
       f_plus = trialFunction(r_plus, alpha, beta, omega);
-      T_Local = T_Local - (f_minus + f_plus - 2 * wfold);
+      T_Local -= (f_minus + f_plus - 2 * wfold);
       r_plus(i, j) = r(i, j);
       r_minus(i, j) = r(i, j);
     }
   }
   T_Local = 0.5 * h2_der * T_Local / (wfold);
+
   return T_Local;
 }
