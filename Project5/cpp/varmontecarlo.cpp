@@ -61,7 +61,7 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
   double new_wavefunc;
   double w;
   mat local_r(2, 3);
-  double local_energy;
+  double local_P_energy;
   double local_r12;
   for (int i = 0; i < mcs; i++)
   {
@@ -80,10 +80,10 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
       wavefunc = new_wavefunc;
       accepted_moves += 1;
     }
-    local_energy = localE(r, alpha, beta, omega);
+    local_P_energy = localE(r, alpha, beta, omega);
     local_r12 = r_12(r);
-    E_avg += local_energy;
-    E2_avg += local_energy * local_energy;
+    E_avg += local_P_energy;
+    E2_avg += local_P_energy * local_P_energy;
     r12_avg += local_r12;
   }
   E_avg /= mcs;
@@ -162,18 +162,7 @@ double r_squared(mat &r)
 //Simple trial wavefunction
 double TrialWaveFunction1(mat &r, double alpha, double beta, double omega)
 {
-  double argument, wavefunction, r_i;
-  argument = wavefunction = 0;
-
-  for (int i = 0; i < 2; i++)
-  {
-    for (int j = 0; j < 3; j++)
-    {
-      r_i += r(i, j) * r(i, j);
-    }
-    argument += r_i;
-  }
-  wavefunction = exp(-0.5 * alpha * omega * argument);
+  wavefunction = exp(-0.5 * alpha * omega * r_squared(r));
   return wavefunction;
 }
 
@@ -196,19 +185,19 @@ double E1(mat &r, double alpha, double beta, double omega)
 //Local energy with "simple" trial wavefunction, with interaction
 double E_repuls(mat &r, double alpha, double beta, double omega)
 {
-  double E2 = 1 / (r_12(r));
-  return E1(r, alpha, beta, omega) + E2;
+  double E_repuls = 1 / (r_12(r));
+  return E1(r, alpha, beta, omega) + E_repuls;
 }
 
 //Local energy for improved trial wavefunction
 double E2(mat &r, double alpha, double beta, double omega)
 {
-  double E = E1(r, alpha, omega, beta) + 1 / (2 * pow(1 + beta * r_12(r), 2)) * (alpha * omega * r_12(r) - 1 / (2 * pow(1 + beta * r_12(r), 2)) - 2 / r_12(r) + 2 * beta / (1 + beta * r_12(r)));
+  double E = E_repuls(r, alpha, omega, beta) + 1 / (2 * pow(1 + beta * r_12(r), 2)) * (alpha * omega * r_12(r) - 1 / (2 * pow(1 + beta * r_12(r), 2)) - 2 / r_12(r) + 2 * beta / (1 + beta * r_12(r)));
   return E;
 }
 
 //Function to calculate kinetic energy
-double Kinetic_E(mat &r, double f, double h, double alpha, double beta,
+double Kinetic_E(mat &r, double wfold, double h, double alpha, double beta,
                  double omega, int mcs,
                  double (*trialFunction)(mat &r, double, double, double))
 {
@@ -228,11 +217,11 @@ double Kinetic_E(mat &r, double f, double h, double alpha, double beta,
       r_minus(i, j) = r(i, j) - h_der;
       f_minus = trialFunction(r_minus, alpha, beta, omega);
       f_plus = trialFunction(r_plus, alpha, beta, omega);
-      T_Local = T_Local - (f_minus + f_plus - 2 * f);
+      T_Local = T_Local - (f_minus + f_plus - 2 * wfold);
       r_plus(i, j) = r(i, j);
       r_minus(i, j) = r(i, j);
     }
   }
-  T_Local = 0.5 * h2_der * T_Local / (f);
+  T_Local = 0.5 * h2_der * T_Local / (wfold);
   return T_Local;
 }
