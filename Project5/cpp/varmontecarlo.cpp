@@ -148,7 +148,8 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
     }
     h -= dh;
     solver(E_avg, var_E, r12_avg, accepted_moves, mcs, alpha, beta, omega,
-           TrialWaveFunction, localE, h, KE_avg, var_KE, PE1, Var_PE1, PE2, Var_PE2);
+           TrialWaveFunction, localE, h, KE_avg,
+           var_KE, PE1, Var_PE1, PE2, Var_PE2);
     acceptance_ratio = accepted_moves / ((double)mcs);
     condition = acceptance_ratio > 0.5 - error &&
                 acceptance_ratio < 0.5 + error;
@@ -160,7 +161,9 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
 void var_mc(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
             int mcs, double alpha, double beta, double omega,
             double (*TrialWaveFunction)(mat &, double, double, double),
-            double (*localE)(mat &, double, double, double), double &KE_avg, double &var_KE, double &PE_avg_wo_C, double &var_PE1,
+            double (*localE)(mat &, double, double, double),
+            double &KE_avg, double &var_KE,
+            double &PE_avg_wo_C, double &var_PE1,
             double &PE_avg_w_C, double &var_PE2)
 {
   double h = FindOptimal_h(alpha, beta, omega, mcs / 10, TrialWaveFunction,
@@ -211,7 +214,9 @@ double TrialWaveFunction2(mat &r, double alpha, double beta, double omega)
 //Local energy with "simple" trial wavefunction, no interaction
 double E1(mat &r, double alpha, double beta, double omega)
 {
-  double E = 0.5 * omega * omega * (r_squared(r)) * (1 - alpha * alpha) + 3 * alpha * omega;
+  double E = 0.5 * omega * omega * (r_squared(r)) *
+                 (1 - alpha * alpha) +
+             3 * alpha * omega;
   return E;
 }
 
@@ -225,7 +230,10 @@ double E_repuls(mat &r, double alpha, double beta, double omega)
 //Local energy for improved trial wavefunction
 double E2(mat &r, double alpha, double beta, double omega)
 {
-  double E = E_repuls(r, alpha, beta, omega) + 1 / (2 * pow(1 + beta * r_12(r), 2)) * (alpha * omega * r_12(r) - 1 / (2 * pow(1 + beta * r_12(r), 2)) - 2 / r_12(r) + 2 * beta / (1 + beta * r_12(r)));
+  double E = E_repuls(r, alpha, beta, omega) +
+             1 / (2 * pow(1 + beta * r_12(r), 2)) *
+                 (alpha * omega * r_12(r) - 1 / (2 * pow(1 + beta * r_12(r), 2)) -
+                  2 / r_12(r) + 2 * beta / (1 + beta * r_12(r)));
   return E;
 }
 
@@ -257,11 +265,12 @@ double Kinetic_E(mat &r, double wfold, double h, double alpha, double beta,
 
   return T_Local;
 }
-
+//Potential energy with out colomb repulsion
 double Potential_E_wo_C(double omega, mat &r)
 {
   return 0.5 * omega * omega * r_squared(r);
-}
+
+} //Potential energy with colomb repulsion
 double Potential_E_w_C(double omega, mat &r)
 {
   return 0.5 * omega * omega * r_squared(r) + 1 / r_12(r);
