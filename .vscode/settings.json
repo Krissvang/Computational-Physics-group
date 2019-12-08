@@ -61,5 +61,6 @@
     "variant": "cpp",
     "armadillo": "cpp"
   },
-  "python.pythonPath": "E:\\Anaconda3\\python.exe"
+  "python.pythonPath": "E:\\Anaconda3\\python.exe",
+  "python.formatting.provider": "black"
 }
