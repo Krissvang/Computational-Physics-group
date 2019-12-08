@@ -203,7 +203,7 @@ double E_repuls(mat &r, double alpha, double beta, double omega)
 //Local energy for improved trial wavefunction
 double E2(mat &r, double alpha, double beta, double omega)
 {
-  double E = E_repuls(r, alpha, omega, beta) + 1 / (2 * pow(1 + beta * r_12(r), 2)) * (alpha * omega * r_12(r) - 1 / (2 * pow(1 + beta * r_12(r), 2)) - 2 / r_12(r) + 2 * beta / (1 + beta * r_12(r)));
+  double E = E_repuls(r, alpha, beta, omega) + 1 / (2 * pow(1 + beta * r_12(r), 2)) * (alpha * omega * r_12(r) - 1 / (2 * pow(1 + beta * r_12(r), 2)) - 2 / r_12(r) + 2 * beta / (1 + beta * r_12(r)));
   return E;
 }
 
