@@ -24,6 +24,10 @@ uniform_real_distribution<double> move_dist(-0.5, 0.5);
 double Kinetic_E(mat &r, double wfold, double h, double alpha, double beta,
                  double omega, int mcs,
                  double (*trialFunction)(mat &r, double, double, double));
+
+double Potential_E_wo_C(double omega, mat &r);
+double Potential_E_w_C(double omega, mat &r);
+
 //Function to initialize positions randomly
 mat init_pos()
 {
@@ -54,18 +58,19 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
             int mcs, double alpha, double beta, double omega,
             double (*TrialWaveFunction)(mat &, double, double, double),
             double (*localE)(mat &, double, double, double), double h,
-            double &KE_avg, double &var_KE)
+            double &KE_avg, double &var_KE, double &PE_avg_wo_C, double &var_PE1,
+            double &PE_avg_w_C, double &var_PE2)
 {
   //Initialize:
-  E_avg = r12_avg = KE_avg = var_E = var_KE = 0;
-  double E2_avg, KE2_avg = 0;
+  E_avg = r12_avg = KE_avg = var_E = var_KE = PE_avg_wo_C = var_PE1 = PE_avg_w_C = var_PE2 = 0;
+  double E2_avg, KE2_avg, PE_w_C_2, PE_wo_C_2 = 0;
   accepted_moves = 0;
   mat r = init_pos();
   double wavefunc = TrialWaveFunction(r, alpha, beta, omega);
   double new_wavefunc;
   double w;
   mat local_r(2, 3);
-  double local_P_energy, local_KE_energy;
+  double local_energy, local_KE, local_PE_w_C, local_PE_wo_C;
   double local_r12;
   for (int n = 0; n < mcs; n++)
   {
@@ -84,13 +89,21 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
       wavefunc = new_wavefunc;
       accepted_moves += 1;
     }
-    local_KE_energy = Kinetic_E(r, wavefunc, h, alpha, beta, omega, mcs, TrialWaveFunction);
-    local_P_energy = localE(r, alpha, beta, omega);
+    local_KE = Kinetic_E(r, wavefunc, h, alpha, beta, omega, mcs, TrialWaveFunction);
+    local_PE_wo_C = Potential_E_wo_C(omega, r);
+    local_PE_w_C = Potential_E_w_C(omega, r);
+    local_energy = localE(r, alpha, beta, omega);
     local_r12 = r_12(r);
-    E_avg += local_P_energy;
-    KE_avg += local_KE_energy;
-    E2_avg += local_P_energy * local_P_energy;
-    KE2_avg += local_KE_energy * local_KE_energy;
+
+    E_avg += local_energy;
+    KE_avg += local_KE;
+    PE_avg_w_C += local_PE_w_C;
+    PE_avg_wo_C += local_PE_wo_C;
+
+    E2_avg += local_energy * local_energy;
+    KE2_avg += local_KE * local_KE;
+    PE_w_C_2 += local_PE_w_C * local_PE_w_C;
+    PE_wo_C_2 += local_PE_wo_C * local_PE_wo_C;
 
     r12_avg += local_r12;
   }
@@ -98,10 +111,16 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
   E2_avg /= mcs;
   KE_avg /= mcs;
   KE2_avg /= mcs;
+  PE_avg_w_C /= mcs;
+  PE_avg_wo_C /= mcs;
+  PE_w_C_2 /= mcs;
+  PE_wo_C_2 /= mcs;
   r12_avg /= mcs;
 
   var_E = E2_avg - E_avg * E_avg;
   var_KE = KE2_avg - KE_avg * KE_avg;
+  var_PE1 = PE_wo_C_2 - PE_avg_wo_C * PE_avg_wo_C;
+  var_PE2 = PE_w_C_2 - PE_avg_w_C * PE_avg_w_C;
 }
 
 //Function to find optimal step length h
@@ -110,25 +129,26 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
                                                  double),
                      double (*localE)(mat &, double, double, double))
 {
-  double h = 4;
+  double h = 3 + .1 / omega;
   double dh = 0.01;
-  double error = 0.005;   //0.5 percent
+  double error = 0.05;    //0.5 percent
   int accepted_moves = 0; //To store number of accepted transitions
   double acceptance_ratio = accepted_moves / ((double)mcs);
   bool condition = (0.5 - error) < acceptance_ratio &&
                    acceptance_ratio < (0.5 + error);
-  double E_avg, var_E, r12_avg, KE_avg, var_KE;
-
+  double E_avg, var_E, r12_avg, KE_avg, var_KE, PE1, PE2, Var_PE1, Var_PE2;
+  double step = 1;
   while (condition != 1)
   {
     if (h < 0)
     {
-      h = 4;
+      h = 3 + .1 / omega + step;
       dh *= 0.1;
+      step += 1;
     }
     h -= dh;
     solver(E_avg, var_E, r12_avg, accepted_moves, mcs, alpha, beta, omega,
-           TrialWaveFunction, localE, h, KE_avg, var_KE);
+           TrialWaveFunction, localE, h, KE_avg, var_KE, PE1, Var_PE1, PE2, Var_PE2);
     acceptance_ratio = accepted_moves / ((double)mcs);
     condition = acceptance_ratio > 0.5 - error &&
                 acceptance_ratio < 0.5 + error;
@@ -140,12 +160,14 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
 void var_mc(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
             int mcs, double alpha, double beta, double omega,
             double (*TrialWaveFunction)(mat &, double, double, double),
-            double (*localE)(mat &, double, double, double), double &KE_avg, double &var_KE)
+            double (*localE)(mat &, double, double, double), double &KE_avg, double &var_KE, double &PE_avg_wo_C, double &var_PE1,
+            double &PE_avg_w_C, double &var_PE2)
 {
   double h = FindOptimal_h(alpha, beta, omega, mcs / 10, TrialWaveFunction,
                            localE);
   solver(E_avg, var_E, r12_avg, accepted_moves, mcs, alpha, beta, omega,
-         TrialWaveFunction, localE, h, KE_avg, var_KE);
+         TrialWaveFunction, localE, h, KE_avg, var_KE, PE_avg_wo_C, var_PE1,
+         PE_avg_w_C, var_PE2);
 }
 
 //Function to calculate ri^2 (i= 1 or 2)
@@ -234,4 +256,13 @@ double Kinetic_E(mat &r, double wfold, double h, double alpha, double beta,
   T_Local = 0.5 * h2_der * T_Local / (wfold);
 
   return T_Local;
+}
+
+double Potential_E_wo_C(double omega, mat &r)
+{
+  return 0.5 * omega * omega * r_squared(r);
+}
+double Potential_E_w_C(double omega, mat &r)
+{
+  return 0.5 * omega * omega * r_squared(r) + 1 / r_12(r);
 }

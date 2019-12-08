@@ -7,7 +7,8 @@ using namespace arma;
 
 void var_mc(double &, double &, double &, int &, int, double, double, double,
             double (*)(mat &, double, double, double),
-            double (*)(mat &, double, double, double), double &, double &);
+            double (*)(mat &, double, double, double), double &, double &,
+            double &, double &, double &, double &);
 
 mat init_pos();
 
@@ -17,7 +18,8 @@ double FindOptimal_h(double, double, double, int,
 
 void solver(double &, double &, double &, int &, int, double, double, double,
             double (*)(mat &, double, double, double),
-            double (*)(mat &, double, double, double), double, double &, double &);
+            double (*)(mat &, double, double, double), double, double &, double &,
+            double &, double &, double &, double &);
 
 double r_12(mat &);
 
@@ -37,5 +39,9 @@ double E2(mat &, double, double, double);
 
 double Kinetic_E(mat &, double, double, double, double, double, int,
                  double (*)(mat &r, double, double, double));
+
+double Potential_E_wo_C(double, mat &);
+
+double Potential_E_w_C(double, mat &);
 
 #endif /* VARMONTECARLO_H */
