@@ -131,7 +131,7 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
 {
   double h = 3 + .1 / omega;
   double dh = 0.01;
-  double error = 0.05;    //0.5 percent
+  double error = 0.05;    //5 percent
   int accepted_moves = 0; //To store number of accepted transitions
   double acceptance_ratio = accepted_moves / ((double)mcs);
   bool condition = (0.5 - error) < acceptance_ratio &&
