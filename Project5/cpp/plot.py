@@ -18,7 +18,7 @@ def plot_energy_vs_alpha(omega):
   plt.plot(alpha,pot_e,'#E57375',marker='o',linestyle='dashed', markersize='3')
   plt.xlabel("Alpha",fontsize="14")
   plt.ylabel("$E_0$",fontsize="14")
-  plt.savefig("results/energy_vs_alpha_w=%s.png"%(omega))
+  plt.savefig("results/energy_vs_alpha_w=%s.pdf"%(omega))
   plt.close()
 
 def plot_r12_vs_omega(filename,filename2,identifier,identifier2):
@@ -36,7 +36,7 @@ def plot_r12_vs_omega(filename,filename2,identifier,identifier2):
   plt.xlabel("$\omega$",fontsize="14")
   plt.ylabel("$r_{12}$",fontsize="14")
 
-  plt.savefig("results/r12_vs_omega.png")
+  plt.savefig("results/r12_vs_omega.pdf")
   plt.close()
 
 def plot_energy_vs_omega(filename,filename2):
@@ -55,7 +55,7 @@ def plot_energy_vs_omega(filename,filename2):
   plt.xlabel("$\omega$",fontsize="14")
   plt.ylabel("$\langle E_L \\rangle$",fontsize="14")
   plt.legend()
-  plt.savefig("results/energy_vs_omega.png")
+  plt.savefig("results/energy_vs_omega.pdf")
   plt.close()
 
 def plot_var_vs_omega(filename,filename2):
@@ -73,7 +73,7 @@ def plot_var_vs_omega(filename,filename2):
   plt.xlabel("$\omega$",fontsize="14")
   plt.ylabel("$\sigma^2$",fontsize="14")
   plt.legend()
-  plt.savefig("results/variance_vs_omega.png")
+  plt.savefig("results/variance_vs_omega.pdf")
   plt.close()
 
 
@@ -85,7 +85,7 @@ def plot_kin_vs_pot_wo(filename,identifier):
   plt.plot(var,kin_e/pe_wo,'#E57375',marker='o',linestyle='dashed', markersize='3')
   plt.xlabel("$\omega$",fontsize="14")
   plt.ylabel("$\\frac{\langle T \\rangle}{\langle V \\rangle}$",fontsize="14")
-  plt.savefig("results/ke_vs_pe_unperturbed%s.png"%(identifier))
+  plt.savefig("results/ke_vs_pe_unperturbed%s.pdf"%(identifier))
   plt.close()
 
 def plot_kin_vs_pot(filename, filename3):
@@ -106,7 +106,7 @@ def plot_kin_vs_pot(filename, filename3):
   plt.xlabel("$\omega$",fontsize="14")
   plt.ylabel("$\\frac{\langle T \\rangle}{\langle V \\rangle}$",fontsize="14")
   plt.legend()
-  plt.savefig("results/ke_vs_pe.png")
+  plt.savefig("results/ke_vs_pe.pdf")
   plt.close()
 
 def plot_test(filename):
@@ -117,7 +117,7 @@ def plot_test(filename):
   plt.plot(var,e,'#E57375',marker='o',linestyle='dashed', markersize='3')
   plt.xlabel("Variating",fontsize="14")
   plt.ylabel("$E$",fontsize="14")
-  plt.savefig("results/test.png")
+  plt.savefig("results/test.pdf")
   plt.close()
 
 file= "running_omega_w_jastrow"
