@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
   cin >> omega;
   cout << "Please enter the parameter to fix (alpha, beta or both)" << endl;
   cin >> fixed_par_name;
-
+  mcs = pow(10, mcs);
   string filename;
   if (argc < 2)
   {
@@ -51,9 +51,14 @@ int main(int argc, char *argv[])
       PE_w_C, var_PE_w;
 
   //Decides the interval and stepsize to run.
-  double parameter_min = 0.2;
-  double parameter_max = 0.225;
-  double parameter_step = 0.001;
+  //for Alpha
+  double parameter_min_a = 0.99;
+  double parameter_max_a = 1.005;
+  double parameter_step_a = 0.001;
+  //For Beta
+  double parameter_min_b = 0.27;
+  double parameter_max_b = 0.295;
+  double parameter_step_b = 0.001;
 
   //Runs for fixed alpha
   if (fixed_par_name == "alpha")
@@ -65,8 +70,8 @@ int main(int argc, char *argv[])
              "            KE Var            r12"
              "     Accepted moves"
           << endl;
-    for (double beta = parameter_min;
-         beta < parameter_max; beta += parameter_step)
+    for (double beta = parameter_min_b;
+         beta < parameter_max_b; beta += parameter_step_b)
     {
       //runs VMC
       var_mc(energy, variance, r12, accepted_moves, mcs, fixed_par,
@@ -93,8 +98,8 @@ int main(int argc, char *argv[])
              "          KE Var        r12"
              "      Accepted moves"
           << endl;
-    for (double alpha = parameter_min;
-         alpha < parameter_max; alpha += parameter_step)
+    for (double alpha = parameter_min_a;
+         alpha < parameter_max_a; alpha += parameter_step_a)
     {
       var_mc(energy, variance, r12, accepted_moves, mcs, alpha,
              fixed_par, omega, TrialWaveFunction2, E2, KE,
@@ -112,15 +117,15 @@ int main(int argc, char *argv[])
   //Fixes alpha and beta to the found parameters and let omega run
   else if (fixed_par_name == "both")
   {
-    double alpha = 0.987;
-    double beta = 0.375;
+    double alpha = 1.002;
+    double beta = 0.276;
     ofile << "Alpha = " << alpha << ". And Beta = " << beta << endl;
     ofile << " Omega          E        Var E              KE"
              "          KE Var           PE wo C     Var PE wo C   "
              "   PE w C        Var PE w C         r12"
              "          Accepted moves"
           << endl;
-    for (double omega = 0.01; omega < 0.2; omega += 0.05)
+    for (double omega = 0.2; omega < 1.05; omega += 0.05)
     {
       var_mc(energy, variance, r12, accepted_moves, mcs, alpha,
              beta, omega, TrialWaveFunction2, E2, KE, var_KE,
