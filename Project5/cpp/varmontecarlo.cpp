@@ -131,7 +131,7 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
 {
   double h = 3 + .1 / omega;
   double dh = 0.01;
-  double error = 0.05;    //5 percent
+  double error = 0.01;    //1 percent
   int accepted_moves = 0; //To store number of accepted transitions
   double acceptance_ratio = accepted_moves / ((double)mcs);
   bool condition = (0.5 - error) < acceptance_ratio &&
@@ -166,7 +166,7 @@ void var_mc(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
             double &PE_avg_wo_C, double &var_PE1,
             double &PE_avg_w_C, double &var_PE2)
 {
-  double h = FindOptimal_h(alpha, beta, omega, mcs / 10, TrialWaveFunction,
+  double h = FindOptimal_h(alpha, beta, omega, 1000, TrialWaveFunction,
                            localE);
   solver(E_avg, var_E, r12_avg, accepted_moves, mcs, alpha, beta, omega,
          TrialWaveFunction, localE, h, KE_avg, var_KE, PE_avg_wo_C, var_PE1,
