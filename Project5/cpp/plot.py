@@ -16,7 +16,7 @@ def plot_energy_vs_alpha(omega):
   plt.figure("Plot")
   plt.grid(1)
   plt.plot(alpha,pot_e,'#E57375',marker='o',linestyle='dashed', markersize='3')
-  plt.xlabel("Alpha",fontsize="14")
+  plt.xlabel("$\\alpha$",fontsize="14")
   plt.ylabel("$E_0$",fontsize="14")
   plt.savefig("results/energy_vs_alpha_w=%s.pdf"%(omega))
   plt.close()
