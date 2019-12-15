@@ -52,9 +52,9 @@ int main(int argc, char *argv[])
 
   //Decides the interval and stepsize to run.
   //for Alpha
-  double parameter_min_a = 0.99;
-  double parameter_max_a = 1.005;
-  double parameter_step_a = 0.001;
+  double parameter_min_a = 0.8;
+  double parameter_max_a = 0.9;
+  double parameter_step_a = 0.01;
   //For Beta
   double parameter_min_b = 0.27;
   double parameter_max_b = 0.295;
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
          alpha < parameter_max_a; alpha += parameter_step_a)
     {
       var_mc(energy, variance, r12, accepted_moves, mcs, alpha,
-             fixed_par, omega, TrialWaveFunction2, E2, KE,
+             fixed_par, omega, TrialWaveFunction1, E_repuls, KE,
              var_KE, PE_wo_C, var_PE_wo, PE_w_C, var_PE_w);
 
       ofile << setprecision(8) << setw(6) << alpha;

@@ -10,7 +10,8 @@
 using namespace arma;
 using namespace std;
 
-//This program uses a specific alpha and lets omega run to calculate different energies (KE, PE, etc.)
+//This program uses a specific alpha and
+//lets omega run to calculate different energies (KE, PE, etc.)
 
 ofstream ofile;
 int main(int argc, char *argv[])
