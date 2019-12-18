@@ -74,6 +74,7 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
   double local_r12;
   for (int n = 0; n < mcs; n++)
   {
+    //Find random new position:
     for (int i = 0; i < 2; i++)
     {
       for (int j = 0; j < 3; j++)
@@ -81,6 +82,7 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
         local_r(i, j) = r(i, j) + h * move_dist(gen);
       }
     }
+    //Metropolis algorithm; determine whether move is accepted
     new_wavefunc = TrialWaveFunction(local_r, alpha, beta, omega);
     w = (new_wavefunc * new_wavefunc) / (wavefunc * wavefunc);
     if (unif_dist(gen) <= w)
@@ -89,6 +91,7 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
       wavefunc = new_wavefunc;
       accepted_moves += 1;
     }
+    //Update energies, distance etc.
     local_KE = Kinetic_E(r, wavefunc, h, alpha, beta, omega, mcs, TrialWaveFunction);
     local_PE_wo_C = Potential_E_wo_C(omega, r);
     local_PE_w_C = Potential_E_w_C(omega, r);
@@ -107,6 +110,7 @@ void solver(double &E_avg, double &var_E, double &r12_avg, int &accepted_moves,
 
     r12_avg += local_r12;
   }
+  //Calculate averages and variances
   E_avg /= mcs;
   E2_avg /= mcs;
   KE_avg /= mcs;
@@ -142,6 +146,7 @@ double FindOptimal_h(double alpha, double beta, double omega, int mcs,
   {
     if (h < 0)
     {
+      //Reset h and reduce increment
       h = 3 + .1 / omega + step;
       dh *= 0.1;
       step += 1;
